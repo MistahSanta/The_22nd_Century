@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class GunScript : MonoBehaviour
@@ -12,14 +13,13 @@ public class GunScript : MonoBehaviour
     public Transform gun_barrel;
     public AudioSource audio_source;
     public AudioClip audio_clip;
+    public ParticleSystem muzzle_flash;
     private Animator gun_animator;
-    private MeshRenderer bullet_render; // Make bullet invisible or visable
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {   
-        bullet_render = bullet.GetComponentInChildren<MeshRenderer>(true);
-        gun_animator = GetComponent<Animator>();
+        gun_animator = GetComponentInChildren<Animator>();
 
         if (gun_animator == null)
         {
@@ -34,15 +34,22 @@ public class GunScript : MonoBehaviour
 
     public void Fire()
     {
-        bullet_render.enabled = true;
+        bullet.SetActive(true);
         GameObject spawn_bullet = Instantiate(bullet, gun_barrel.position, gun_barrel.rotation * Quaternion.Euler(90,0,0) );
         spawn_bullet.GetComponent<Rigidbody>().linearVelocity = gun_barrel.forward * 10.0f;
         
         // Play sound
 
-        //gun_animator.SetTrigger("Fire");
-        Destroy(spawn_bullet, 2);
-        bullet_render.enabled = false;
+        gun_animator.SetTrigger("Fire");
+
+        if (muzzle_flash != null)
+        {
+            Debug.Log("Playing muzzle");
+            muzzle_flash.Play();
+        }
+
+        Destroy(spawn_bullet, 4);
+        bullet.SetActive(false);
     }
 
 
@@ -52,9 +59,9 @@ public class GunScript : MonoBehaviour
         if (gun_equip == false) return; 
 
 
-        // Gun is equip so follow the player 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        // // Gun is equip so follow the player 
+        // Rigidbody rb = GetComponent<Rigidbody>();
+        // rb.isKinematic = true;
 
         Vector3 infront_player_position = main_camera.position + (main_camera.forward * 0.5f) + (main_camera.right * 0.25f) - (main_camera.up * 0.25f);
         transform.position = Vector3.Lerp( transform.position, infront_player_position, equip_speed);
