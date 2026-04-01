@@ -1229,7 +1229,7 @@ Transform:
   m_GameObject: {fileID: 567519043}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11, y: 107, z: 0.25445}
+  m_LocalPosition: {x: -22.0621, y: 0.9, z: 0.25445}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2331,13 +2331,43 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1981420222}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -2353845053299319914, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 978061790}
   m_SourcePrefab: {fileID: 100100000, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
 --- !u!4 &978061788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
   m_PrefabInstance: {fileID: 978061787}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &978061789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2353845053299319914, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
+  m_PrefabInstance: {fileID: 978061787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &978061790
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978061789}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3860747177700847175, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
 --- !u!1001 &995987323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4767,6 +4797,7 @@ GameObject:
   - component: {fileID: 1981420222}
   - component: {fileID: 1981420224}
   - component: {fileID: 1981420223}
+  - component: {fileID: 1981420225}
   m_Layer: 0
   m_Name: Road_004 (1)
   m_TagString: Untagged
@@ -4845,6 +4876,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981420221}
+  m_Mesh: {fileID: 3860747177700847175, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
+--- !u!64 &1981420225
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981420221}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 3860747177700847175, guid: c9c9ea5fd6bc640ac8fd6867a6d5a61e, type: 3}
 --- !u!1 &1984624707
 GameObject:
