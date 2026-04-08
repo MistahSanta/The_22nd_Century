@@ -1,168 +1,99 @@
-# The 22nd Century - Team Instructions
-**Last Updated: April 8, 2026**
-**Updated by: Yili**
+# The 22nd Century - Update Notes
+**Updated by: Yili | April 8, 2026**
 
 ---
 
-## Features Implemented (Summary)
+## 1. What Yili Achieved
 
-### Advanced Requirements
-- **Accelerometer Jump** — Physical jump detected via phone accelerometer
-- **Accelerometer Crouch** — Physical crouch detected via phone accelerometer
+| Feature | Script File | Description |
+|---------|------------|-------------|
+| Accelerometer Jump/Crouch (Advanced Req) | `AccelerometerMovement.cs` | Detects physical jump/crouch via phone accelerometer |
+| Haptic Vibration | `HapticFeedback.cs` | Phone vibrates on shoot (50ms), zombie hit (200ms), interact (30ms) |
+| Time Machine Travel | `TimeMachineScript.cs` | 3D model time machine, gaze to interact, travel Future ↔ Present |
+| Trash Pickup System | `TrashPickup.cs`, `TrashGrabberScript.cs` | Pick up garbage picker first, then collect 5 trash to clean the future |
+| World Switching + Cleanliness | `GameManager.cs` | Manages 5 worlds in 1 scene, tracks trash score, switches skybox |
+| Zombie AI (modified) | `ZombieScript.cs` | Zombies chase player slowly, turn red on hit, game over on touch |
+| Gun Glow + Gaze Detection | `GunScript.cs`, `GunProximityDetector.cs` | Blue glow on gun, proximity gaze detection, first-person hold |
+| Crosshair + Gaze Prompts | `CrosshairUI.cs`, `InteractableObjectScript.cs` | Center screen crosshair, world-space prompt on gaze |
+| HUD Progress Bar | `CleanlinessHUD.cs` | Shows 0/5 trash collected, only visible in Present world |
+| Controls Menu | `ControlsMenu.cs` | Press Menu button to see all button mappings |
+| Controller Mapping | `ControllerMapping.cs` | Configurable button mapping in Inspector |
+| Scene Merge Tool | `SceneMerger.cs` (Editor) | Merged 5 separate scenes into 1 Main scene |
+| Auto Scene Setup | `SceneSetup.cs`, `GunSetup.cs` (Editor) | One-click setup for all interactions and references |
+| Proximity Gaze Detection | `PlayerInteraction.cs`, `GrabberProximityDetector.cs`, `TrashProximityDetector.cs` | Detects when player looks at interactable objects |
+| Mouse Look (Editor) | `MouseLook.cs` | Mouse camera control for editor testing, auto-disabled on phone |
+| Anti-Fall Safety | `PlayerSafetyNet.cs` | Teleports player back if they fall through the map |
+| Controller Debug | `ControllerDebug.cs` | Debug tool to identify controller button names (disabled by default) |
 
-### Core Gameplay
-- **Gun System** — Pick up gun (blue glow), first-person aim, shoot bullets
-- **Zombie AI** — Zombies slowly chase player, turn red and die when shot
-- **Game Over** — Zombie touches player → red screen → press A to restart
-- **Time Machine** — 3D model, gaze interaction, travel between Future and Present
-- **Trash Pickup** — Pick up garbage picker first, then collect 5 trash items
-- **World Switching** — 5 world variants in 1 scene, instant switching (no loading)
-- **Skybox Switching** — Each world has its own sky
-- **Cleanliness System** — Picking trash in Present improves the Future world
-- **Haptic Vibration** — Phone vibrates on shoot, hit, and interact
-
-### UI/UX
-- **Crosshair** — Center screen reticle
-- **Gaze Interaction** — Look at objects → yellow highlight + prompt text
-- **HUD Progress Bar** — Shows trash collected (0/5), only in Present
-- **Controls Menu** — Press Menu button to see button mappings
-- **Controller Mapping** — Configurable in Inspector (GameManager > ControllerMapping)
+All scripts are located in `Assets/custom_scripts/`. Editor tools are in `Assets/Editor/`.
 
 ---
 
-## How to Open & Run
+## 2. How to Download & Run
 
-### Step 1: Pull from GitHub
-```
-cd [project folder]
+### Pull Latest Code
+```bash
+cd [your project folder]
 git pull origin main
 ```
 
-### Step 2: Open in Unity
-- Unity version: **6000.3.4f1**
-- Open the project folder in Unity Hub
+### Open in Unity
+- Required version: **Unity 6000.3.4f1**
+- Open the project folder via Unity Hub
 
-### Step 3: Open Main Scene
-- Open **Assets/Scenes/Main.unity** (this is the merged scene with all 5 worlds)
+### Open the Main Scene
+- Navigate to **Assets/Scenes/Main.unity** and open it
+- This is the merged scene containing all 5 world variants
 
-### Step 4: Run Setup (IMPORTANT - do this after every pull)
-1. **Tools > Setup Main Scene** (wait for it to finish)
-2. **Tools > Setup Gun Interaction**
-3. **Ctrl+S** (Cmd+S on Mac) to save
+### Run Setup (REQUIRED after every pull)
+1. Click menu **Tools > Setup Main Scene** — wait until console shows "Main scene setup complete!"
+2. Click menu **Tools > Setup Gun Interaction** — wait until console shows "Gun setup complete!"
+3. Press **Ctrl+S** (or Cmd+S on Mac) to save the scene
 4. Press **Play** to test
 
-### Step 5: Build to Android
-- **File > Build Settings** > Platform: Android > Scenes: Main
-- Click **Build and Run**
+### Build to Android Phone
+1. **File > Build Settings**
+2. Platform: **Android**, Scenes in Build: **Main**
+3. Click **Build and Run** with phone connected
 
 ---
 
-## Game Flow
-
-```
-1. START in Future (Apocalypse)
-   ↓
-2. Pick up GUN (blue glow, nearby) → Press A
-   ↓
-3. Shoot ZOMBIES (press Top/H button) → They turn red and die
-   ↓
-4. Walk to TIME MACHINE → Press A → Travel to Present
-   ↓
-5. Pick up GARBAGE PICKER (blue glow, near TM) → Press A
-   ↓
-6. Pick up 5 TRASH items (red glow) → Press A on each
-   ↓
-7. Progress bar reaches 5/5 → Time Machine lights up
-   ↓
-8. Walk to TIME MACHINE → Press A → Travel back to Future
-   ↓
-9. Future is now CLEAN (VeryClean world with blue sky and trees)
-```
-
----
-
-## Controller Mapping
+## 3. Controller Mapping
 
 | Button | Action |
 |--------|--------|
-| **Joystick** | Move player |
-| **Head movement** | Look around (VR) |
-| **A (js11)** | Interact (pick up, travel, collect) |
-| **Top / H (js7)** | Shoot gun |
-| **Y (js5)** | Jump |
-| **Menu (js9/js13)** | Toggle controls menu |
+| Joystick | Move player |
+| Head movement | Look around (VR) / Mouse (Editor) |
+| **A** (js11) | Interact — pick up gun, travel, collect trash |
+| **Top / H** (js7) | Shoot gun |
+| **Y** (js5) | Jump |
+| **Menu** (js9 / js13) | Toggle controls help menu |
 
-> To change mappings: Select **GameManager** in Hierarchy > Inspector > **ControllerMapping** component > change button names
-
----
-
-## Important Notes for Teammates
-
-### DO
-- Always run **Tools > Setup Main Scene** after pulling new changes
-- Always run **Tools > Setup Gun Interaction** after Setup Main Scene
-- Save (**Ctrl+S**) before playing
-- Edit in **Main.unity** scene (not the individual old scenes)
-- Test on Android phone with Cardboard headset for full experience
-
-### DON'T
-- Don't delete any asset folders (they may be referenced by scenes)
-- Don't install MCP for Unity package (it causes Unity to freeze during domain reload)
-- Don't modify the old individual scenes (Apocalypse.unity, Present.unity, etc.) — they are backups
-- Don't change Enter Play Mode Options (already configured to skip domain reload)
-
-### If Unity freezes on "Reloading Domain"
-1. Force quit Unity (Activity Monitor or `pkill -9 Unity` in terminal)
-2. Delete `Library/ScriptAssemblies` folder
-3. Reopen Unity and wait for full compile (3-5 min, this is normal)
+To change mappings: Select **GameManager** object in Hierarchy > Inspector > **ControllerMapping** component.
 
 ---
 
-## Project Structure
+## 4. Game Flow
 
-```
-Assets/
-├── Scenes/
-│   └── Main.unity              ← USE THIS (merged scene)
-├── custom_scripts/             ← All game scripts
-│   ├── GameManager.cs          — World switching, score, game over
-│   ├── AccelerometerMovement.cs — Phone sensor jump/crouch
-│   ├── HapticFeedback.cs       — Phone vibration
-│   ├── ControllerMapping.cs    — Button config
-│   ├── InteractableObjectScript.cs — Gaze + interact system
-│   ├── PlayerInteraction.cs    — Raycast detection
-│   ├── CrosshairUI.cs          — Screen crosshair
-│   ├── CleanlinessHUD.cs       — Progress bar (Present only)
-│   ├── ControlsMenu.cs         — Button help menu
-│   ├── TimeMachineScript.cs    — Time travel logic
-│   ├── TrashPickup.cs          — Trash collection
-│   ├── TrashGrabberScript.cs   — Garbage picker tool
-│   ├── PlayerSafetyNet.cs      — Anti-fall protection
-│   ├── MouseLook.cs            — Editor mouse control (disabled on phone)
-│   ├── Gun/
-│   │   ├── GunScript.cs        — Gun pickup, aim, shoot
-│   │   ├── BulletScript.cs     — Bullet damage
-│   │   └── GunProximityDetector.cs — Gaze detection for gun
-│   └── Zombies/
-│       └── ZombieScript.cs     — Zombie AI, chase, die
-├── Editor/
-│   ├── SceneSetup.cs           — One-click scene setup tool
-│   ├── GunSetup.cs             — Gun interaction binding
-│   └── SceneMerger.cs          — Scene merge tool (already used)
-├── TimeMachineModel/           — Time machine 3D model (.glb)
-├── GarbagePickerModel/         — Garbage picker 3D model (.obj)
-└── [Third-party assets]        — Map, zombies, guns, skybox, etc.
-```
+1. **Start in Future (Apocalypse)** — dark, destroyed world with zombies
+2. **Pick up Gun** — look at it (blue glow), press A
+3. **Shoot Zombies** — press Top button, zombies turn red and die
+4. **Walk to Time Machine** — look at it, press A to travel to Present
+5. **Pick up Garbage Picker** — blue glow, near Time Machine, press A
+6. **Collect 5 Trash Items** — red glow on the road, look + press A
+7. **Progress bar reaches 5/5** — Time Machine lights up
+8. **Travel back to Future** — walk to Time Machine, press A
+9. **Future is now clean** — blue sky, green trees, restored buildings
 
 ---
 
-## What Still Needs Work
+## 5. Important Notes
 
-- [ ] Skybox materials need to be assigned in GameManager Inspector (if not auto-set)
-- [ ] Gun animator (fire animation) — original animator reference was lost during merge
-- [ ] Sound effects (shoot, pickup, ambient) — not yet added
-- [ ] NPC dialog system — not yet implemented
-- [ ] AI drone companion (Advanced Requirement 2) — not yet implemented
-- [ ] Documentation: Source doc, ReadMe doc, Team doc for submission
-- [ ] Demo video (< 2 min, 720p+, narrated) for YouTube
-- [ ] APK build named `preliminary.apk` for submission
+- **Always run Setup after pulling** — Tools > Setup Main Scene + Setup Gun Interaction, then save
+- **Do NOT install MCP for Unity package** — it causes Unity to freeze during domain reload
+- **Work in Main.unity only** — the old individual scenes (Apocalypse.unity, Present.unity, etc.) are backups
+- **If Unity freezes on "Reloading Domain":**
+  1. Force quit Unity
+  2. Delete the `Library/ScriptAssemblies` folder
+  3. Reopen Unity and wait 3-5 minutes for recompile (this is normal)
+- **Auto Refresh is disabled** — after editing scripts outside Unity, press **Ctrl+R** (Assets > Refresh) to recompile
