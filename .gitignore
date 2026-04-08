@@ -98,3 +98,10 @@ InitTestScene*.unity*
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 *_BackUpThisFolder_*
+
+# Local tools
+/[Aa]ssets/MCP*
+/[Aa]ssets/MCP*.meta
+
+# MCP Screenshots
+/[Aa]ssets/Screenshots/
