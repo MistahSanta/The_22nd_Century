@@ -42,14 +42,21 @@ public class InteractableObjectScript : MonoBehaviour
         {
             if (GameManager.Instance.IsInPresent)
             {
-                if (GameManager.Instance.CleanlinessPercent >= 100f)
+                if (!GameManager.Instance.TimerRunning)
                     display = "Travel back to Future";
                 else
-                    display = "Collect all trash first!";
+                    display = "Pick up trash and plant trees!";
             }
             else
                 display = "Travel to Present";
         }
+
+        if (GetComponent<TrashPickup>() != null)
+            return display;
+
+        if (GetComponent<TreePlanting>() != null)
+            return display;
+
         return display + "\n[Press A]";
     }
 

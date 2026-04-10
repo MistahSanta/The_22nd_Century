@@ -2,17 +2,17 @@ using UnityEngine;
 
 /// <summary>
 /// Controller button mappings based on actual hardware testing.
-/// X=js3, Y=js5, A=js11, B=js10, Top=H(js7), Menu=js9/js13
+/// X=js2, Y=js3, A=js10, B=js5, Top=H(js0), Menu=js9/js13
 /// </summary>
 public class ControllerMapping : MonoBehaviour
 {
     public static ControllerMapping Instance { get; private set; }
 
     [Header("Shoot (Top Button)")]
-    public string shootButton1 = "js7";  // keyboard H / top trigger
+    public string shootButton1 = "js0";  // keyboard H / top trigger
 
     [Header("Interact (A Button)")]
-    public string interactButton1 = "js11"; // controller A
+    public string interactButton1 = "js10"; // controller A
     public string interactButton2 = "js4";  // keyboard E fallback
 
     [Header("Menu (Menu Button)")]
@@ -20,11 +20,13 @@ public class ControllerMapping : MonoBehaviour
     public string menuButton2 = "js13";  // menu toggle 2
 
     [Header("Jump (Y Button)")]
-    public string jumpButton = "js5";    // controller Y
+    public string jumpButton = "js3";    // controller Y
+
+    [Header("Switch Tool (X Button)")]
+    public string switchButton = "js2";      // controller X
 
     [Header("Other")]
-    public string buttonB = "js10";      // controller B
-    public string buttonX = "js3";       // controller X
+    public string buttonB = "js5";       // controller B
 
     void Awake()
     {
@@ -56,6 +58,11 @@ public class ControllerMapping : MonoBehaviour
     public bool GetJumpDown()
     {
         return SafeGetButtonDown(jumpButton) || Input.GetKeyDown(KeyCode.Space);
+    }
+
+    public bool GetSwitchToolDown()
+    {
+        return SafeGetButtonDown(switchButton) || Input.GetKeyDown(KeyCode.T);
     }
 
     bool SafeGetButtonDown(string btn)
