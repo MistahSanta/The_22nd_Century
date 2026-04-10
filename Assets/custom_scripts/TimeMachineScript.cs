@@ -20,12 +20,12 @@ public class TimeMachineScript : MonoBehaviour
 
     void Update()
     {
-        // In Present: glow only when all trash collected (100%)
+        // In Present: glow only when time's up
         // In Future: always glow (so player can travel to present)
         if (GameManager.Instance != null)
         {
             bool shouldGlow = !GameManager.Instance.IsInPresent ||
-                              GameManager.Instance.CleanlinessPercent >= 100f;
+                              !GameManager.Instance.TimerRunning;
             if (shouldGlow != glowing) SetGlow(shouldGlow);
         }
     }
@@ -76,7 +76,7 @@ public class TimeMachineScript : MonoBehaviour
         }
 
         // In Present: only allow travel back if all trash collected
-        if (GameManager.Instance.IsInPresent && GameManager.Instance.CleanlinessPercent < 100f)
+        if (GameManager.Instance.IsInPresent && GameManager.Instance.CleanlinessPercent < 100f && GameManager.Instance.TimerRunning)
         {
             Debug.Log("Collect all trash before traveling back!");
             return;
@@ -84,5 +84,10 @@ public class TimeMachineScript : MonoBehaviour
 
         HapticFeedback.VibrateInteract();
         GameManager.Instance.ActivateTimeMachine();
+    }
+
+    public void ResetGlow()
+    {
+        glowing = false;
     }
 }
