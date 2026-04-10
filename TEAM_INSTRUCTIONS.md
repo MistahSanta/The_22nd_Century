@@ -84,16 +84,3 @@ To change mappings: Select **GameManager** object in Hierarchy > Inspector > **C
 7. **Progress bar reaches 5/5** — Time Machine lights up
 8. **Travel back to Future** — walk to Time Machine, press A
 9. **Future is now clean** — blue sky, green trees, restored buildings
-
----
-
-## 5. Important Notes
-
-- **Always run Setup after pulling** — Tools > Setup Main Scene + Setup Gun Interaction, then save
-- **Do NOT install MCP for Unity package** — it causes Unity to freeze during domain reload
-- **Work in Main.unity only** — the old individual scenes (Apocalypse.unity, Present.unity, etc.) are backups
-- **If Unity freezes on "Reloading Domain":**
-  1. Force quit Unity
-  2. Delete the `Library/ScriptAssemblies` folder
-  3. Reopen Unity and wait 3-5 minutes for recompile (this is normal)
-- **Auto Refresh is disabled** — after editing scripts outside Unity, press **Ctrl+R** (Assets > Refresh) to recompile
