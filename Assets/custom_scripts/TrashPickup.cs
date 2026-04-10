@@ -11,7 +11,7 @@ public class TrashPickup : MonoBehaviour
         if (interactable != null)
         {
             interactable.maxInteractDistance = 4f;
-            interactable.promptText = "Pick up Trash";
+            interactable.promptText = GetPromptText();
         }
 
         // Add proximity detector for gaze interaction
@@ -31,6 +31,13 @@ public class TrashPickup : MonoBehaviour
         catch { }
     }
 
+    void Update()
+    {
+        var interactable = GetComponent<InteractableObjectScript>();
+        if (interactable != null && interactable.pointer_on_obj)
+            interactable.promptText = GetPromptText();
+    }
+
     public void Collect()
     {
         // Can only collect if player has garbage picker
@@ -40,11 +47,37 @@ public class TrashPickup : MonoBehaviour
             return;
         }
 
+        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning)
+        {
+            Debug.Log("Time's up! Can't collect trash anymore!");
+            return;
+        }
+
+        if (GameManager.Instance.CurrentTool != GameManager.EquippedTool.GarbagePicker)
+        {
+            Debug.Log("Need garbage picker to collect trash!");
+            return;
+        }
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.CollectTrash();
             HapticFeedback.VibrateInteract();
         }
         gameObject.SetActive(false);
+    }
+
+    public string GetPromptText()
+    {
+        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning)
+            return "Time's up! Can't collect trash anymore!";
+
+        if (GameManager.Instance != null && GameManager.Instance.CurrentTool == GameManager.EquippedTool.None)
+            return "Pick up Garbage Picker!\n[Press A]";
+
+        if (GameManager.Instance != null && GameManager.Instance.CurrentTool != GameManager.EquippedTool.GarbagePicker)
+            return "Switch to Garbage Picker!\n[Press B]";
+
+        return "Pick up Trash\n[Press A]";
     }
 }

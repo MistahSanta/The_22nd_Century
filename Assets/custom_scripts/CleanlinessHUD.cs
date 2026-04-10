@@ -20,6 +20,9 @@ public class CleanlinessHUD : MonoBehaviour
     public float heightOffset = 1.2f;
     public float followSpeed = 3f;
 
+    [Header("Timer UI")]
+    public TextMeshProUGUI timerText;
+
     void Start()
     {
         // Auto-find panel if not assigned
@@ -59,14 +62,30 @@ public class CleanlinessHUD : MonoBehaviour
         }
 
         if (percentText != null)
-            percentText.text = $"{collected}/{total}";
+        {
+            int trees = GameManager.Instance.TreesPlanted;
+            int totalItems = GameManager.Instance.totalTrashInPresent + GameManager.Instance.totalTreesInPresent;
+            percentText.text = $"{collected + trees}/{totalItems}";
+        }
 
         if (statusText != null)
         {
-            if (collected >= total)
-                statusText.text = "All clean! Go to the Time Machine!";
-            else
-                statusText.text = "Pick up trash to save the future!";
+            statusText.text = "Pick up trash and plant trees to save the future!";
+        }
+
+        if (timerText != null)
+        {
+            if (GameManager.Instance.TimerRunning)
+            {
+                int seconds = Mathf.CeilToInt(GameManager.Instance.TimeRemaining);
+                timerText.text = $"Time: {seconds}s";
+                timerText.color = seconds <= 10 ? Color.red : Color.white;
+            }
+            else if (GameManager.Instance.IsInPresent)
+            {
+                timerText.text = "Time's up! Return to the Time Machine!";
+                timerText.color = Color.red;
+            }
         }
 
         // Follow player camera

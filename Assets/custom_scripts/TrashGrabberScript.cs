@@ -12,7 +12,10 @@ public class TrashGrabberScript : MonoBehaviour
     {
         isEquipped = true;
         if (GameManager.Instance != null)
+        {
             GameManager.Instance.PickUpGarbagePicker();
+            GameManager.Instance.EquipGarbagePicker();
+        }
 
         // Turn off glow light (keep model visible in hand)
         foreach (Light l in GetComponentsInChildren<Light>())
@@ -36,6 +39,14 @@ public class TrashGrabberScript : MonoBehaviour
     void LateUpdate()
     {
         if (!isEquipped || mainCamera == null) return;
+
+        bool isActive = GameManager.Instance != null &&
+                GameManager.Instance.CurrentTool == GameManager.EquippedTool.GarbagePicker;
+
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+            r.enabled = isActive;
+
+        if (!isActive) return;
 
         // Follow camera on left side
         Vector3 target = mainCamera.position

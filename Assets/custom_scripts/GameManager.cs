@@ -19,26 +19,43 @@ public class GameManager : MonoBehaviour
     public Material skyboxVeryClean;
     public Material skyboxPresent;
 
+    [Header("Timer")]
+    public float presentWorldTime = 60f;
+    float timer = 0f;
+    bool timerRunning = false;
+    public bool TimerRunning => timerRunning;
+    public float TimeRemaining => timer;
+
     [Header("Shared Objects (hidden in Present)")]
     public GameObject gunObject;
     public GameObject timeMachineObject;
 
     [Header("Cleanliness")]
     public int totalTrashInPresent = 5; // Only need 5 out of 45 to reach 100%
+    public int totalTreesInPresent = 3;
     int trashCollected = 0;
+    int treesPlanted = 0;
 
     bool isInPresent = false;
     bool isGameOver = false;
     bool hasGarbagePicker = false;
+    bool hasShovel = false;
     GameObject gameOverPanel;
 
     public bool HasGarbagePicker => hasGarbagePicker;
     public void PickUpGarbagePicker() { hasGarbagePicker = true; Debug.Log("Garbage picker equipped!"); }
 
+    public bool HasShovel => hasShovel;
+    public void PickUpShovel() { hasShovel = true; Debug.Log("Shovel equipped!"); }
+
+    public enum EquippedTool { None, GarbagePicker, Shovel }
+    public EquippedTool CurrentTool { get; private set; } = EquippedTool.None;
+
     public bool IsInPresent => isInPresent;
     public bool IsGameOver => isGameOver;
-    public float CleanlinessPercent => totalTrashInPresent > 0 ? (float)trashCollected / totalTrashInPresent * 100f : 0f;
+    public float CleanlinessPercent => (totalTrashInPresent + totalTreesInPresent) > 0 ? (float)(trashCollected + treesPlanted) / (totalTrashInPresent + totalTreesInPresent) * 100f : 0f;
     public int TrashCollected => trashCollected;
+    public int TreesPlanted => treesPlanted;
 
     void Awake()
     {
@@ -58,6 +75,24 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (timerRunning && isInPresent)
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
+            {
+                timer = 0f;
+                timerRunning = false;
+                // disable interactions
+                Debug.Log("Time's up! Return to the Time Machine!");
+            }
+        }
+
+        if (isInPresent && ControllerMapping.Instance != null && ControllerMapping.Instance.GetSwitchToolDown())
+        {
+            SwitchTool();
+            Debug.Log($"Switched to: {CurrentTool}");
+        }
+
         if (isGameOver)
         {
             bool restart = ControllerMapping.Instance != null
@@ -75,6 +110,12 @@ public class GameManager : MonoBehaviour
         // If all trash collected, enable TimeMachine glow
         if (CleanlinessPercent >= 100f)
             Debug.Log("All trash collected! Time Machine is ready!");
+    }
+
+    public void PlantTree()
+    {
+        treesPlanted++;
+        Debug.Log($"Trees planted: {treesPlanted}");
     }
 
     public void ActivateTimeMachine()
@@ -109,6 +150,10 @@ public class GameManager : MonoBehaviour
     void ShowPresentWorld()
     {
         isInPresent = true;
+
+        timer = presentWorldTime;
+        timerRunning = true;
+
         SetAllWorldsInactive();
         if (presentWorld != null)
         {
@@ -140,17 +185,17 @@ public class GameManager : MonoBehaviour
 
         float pct = CleanlinessPercent;
 
-        if (pct >= 75f && futureVeryClean != null)
+        if (pct >= 100f && futureVeryClean != null)
         {
             futureVeryClean.SetActive(true);
             if (skyboxVeryClean != null) RenderSettings.skybox = skyboxVeryClean;
         }
-        else if (pct >= 50f && futureGettingCleaner != null)
+        else if (pct >= 60f && futureGettingCleaner != null)
         {
             futureGettingCleaner.SetActive(true);
             if (skyboxGettingCleaner != null) RenderSettings.skybox = skyboxGettingCleaner;
         }
-        else if (pct >= 25f && futureCleaner != null)
+        else if (pct >= 30f && futureCleaner != null)
         {
             futureCleaner.SetActive(true);
             if (skyboxCleaner != null) RenderSettings.skybox = skyboxCleaner;
@@ -159,6 +204,26 @@ public class GameManager : MonoBehaviour
         {
             futureApocalypse.SetActive(true);
             if (skyboxApocalypse != null) RenderSettings.skybox = skyboxApocalypse;
+        }
+
+        Vector3[] safePositions = new Vector3[]
+        {
+            new Vector3(-20f, 0f, 25f),
+            new Vector3(2f, 0f, 15f),
+            new Vector3(4f, 0f, -20f),
+            new Vector3(-10f, 0f, -20f),
+            new Vector3(3f, 0f, -3f),
+            new Vector3(23f, 0f, 8f),
+            new Vector3(-20f, 0f, 3f),
+        };
+
+        if (timeMachineObject != null)
+        {
+            int randomIndex = Random.Range(0, safePositions.Length);
+            timeMachineObject.transform.position = safePositions[randomIndex];
+
+            var tm = timeMachineObject.GetComponent<TimeMachineScript>();
+            if (tm != null) tm.ResetGlow();
         }
     }
 
@@ -201,5 +266,23 @@ public class GameManager : MonoBehaviour
         textRect.sizeDelta = Vector2.zero;
 
         gameOverPanel.SetActive(false);
+    }
+
+    public void EquipGarbagePicker()
+    {
+        CurrentTool = EquippedTool.GarbagePicker;
+    }
+
+    public void EquipShovel()
+    {
+        CurrentTool = EquippedTool.Shovel;
+    }
+
+    public void SwitchTool()
+    {
+        if (CurrentTool == EquippedTool.GarbagePicker)
+            CurrentTool = EquippedTool.Shovel;
+        else if (CurrentTool == EquippedTool.Shovel)
+            CurrentTool = EquippedTool.GarbagePicker;
     }
 }

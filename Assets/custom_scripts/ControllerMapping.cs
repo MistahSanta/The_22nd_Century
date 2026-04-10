@@ -22,8 +22,10 @@ public class ControllerMapping : MonoBehaviour
     [Header("Jump (Y Button)")]
     public string jumpButton = "js5";    // controller Y
 
+    [Header("Switch Tool (B Button)")]
+    public string switchButton = "js10";      // controller B
+
     [Header("Other")]
-    public string buttonB = "js10";      // controller B
     public string buttonX = "js3";       // controller X
 
     void Awake()
@@ -56,6 +58,11 @@ public class ControllerMapping : MonoBehaviour
     public bool GetJumpDown()
     {
         return SafeGetButtonDown(jumpButton) || Input.GetKeyDown(KeyCode.Space);
+    }
+
+    public bool GetSwitchToolDown()
+    {
+        return SafeGetButtonDown(switchButton) || Input.GetKeyDown(KeyCode.T);
     }
 
     bool SafeGetButtonDown(string btn)
