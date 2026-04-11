@@ -69,14 +69,14 @@ public class TrashPickup : MonoBehaviour
 
     public string GetPromptText()
     {
-        if (GameManager.Instance != null && GameManager.Instance.CurrentTool == GameManager.EquippedTool.None)
+        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning && GameManager.Instance.TimeRemaining == 0f)
+            return "Time's up! Can't collect trash anymore!";
+
+        if (GameManager.Instance != null && !GameManager.Instance.HasGarbagePicker)
             return "Pick up Garbage Picker!\n[Press A]";
 
         if (GameManager.Instance != null && GameManager.Instance.CurrentTool != GameManager.EquippedTool.GarbagePicker)
             return "Switch to Garbage Picker!\n[Press X]";
-
-        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning)
-            return "Time's up! Can't collect trash anymore!";
 
         return "Pick up Trash\n[Press A]";
     }

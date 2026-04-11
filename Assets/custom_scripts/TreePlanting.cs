@@ -70,14 +70,14 @@ public class TreePlanting : MonoBehaviour
 
     public string GetPromptText()
     {
-        if (GameManager.Instance != null && GameManager.Instance.CurrentTool == GameManager.EquippedTool.None)
+        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning && GameManager.Instance.TimeRemaining == 0f)
+            return "Time's up! Can't plant trees anymore!";
+
+        if (GameManager.Instance != null && !GameManager.Instance.HasShovel)
             return "Pick up Shovel first!\n[Press A]";
 
         if (GameManager.Instance != null && GameManager.Instance.CurrentTool != GameManager.EquippedTool.Shovel)
             return "Switch to Shovel!\n[Press X]";
-
-        if (GameManager.Instance != null && !GameManager.Instance.TimerRunning)
-            return "Time's up! Return to the Time Machine!";
 
         return "Plant Tree\n[Press A]";
     }

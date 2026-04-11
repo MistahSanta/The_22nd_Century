@@ -1952,6 +1952,7 @@ GameObject:
   - component: {fileID: 99930353}
   - component: {fileID: 99930358}
   - component: {fileID: 99930357}
+  - component: {fileID: 99930359}
   m_Layer: 0
   m_Name: TreeSpot_0
   m_TagString: Untagged
@@ -2098,6 +2099,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreePlanting
   treePrefab: {fileID: 1276862051916332, guid: 1be61187b5d765449be824463642cb0f, type: 3}
+--- !u!114 &99930359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99930351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1 &101572481
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,6 +2222,7 @@ GameObject:
   - component: {fileID: 109746870}
   - component: {fileID: 109746869}
   - component: {fileID: 109746868}
+  - component: {fileID: 109746873}
   m_Layer: 0
   m_Name: TreeSpot_4
   m_TagString: Untagged
@@ -2355,6 +2369,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109746866}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &109746873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109746866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1 &118063523
 GameObject:
   m_ObjectHideFlags: 0
@@ -3262,6 +3288,7 @@ GameObject:
   - component: {fileID: 157677334}
   - component: {fileID: 157677333}
   - component: {fileID: 157677332}
+  - component: {fileID: 157677337}
   m_Layer: 0
   m_Name: VisibleTrash_9
   m_TagString: Untagged
@@ -3407,6 +3434,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157677330}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &157677337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157677330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1001 &160248962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6800,6 +6839,7 @@ GameObject:
   - component: {fileID: 328211800}
   - component: {fileID: 328211799}
   - component: {fileID: 328211798}
+  - component: {fileID: 328211803}
   m_Layer: 0
   m_Name: VisibleTrash_7
   m_TagString: Untagged
@@ -6943,6 +6983,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 328211796}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &328211803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328211796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!4 &331674121 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6476529798019570804, guid: 0fe65fec31a96cc49a3146a03f035c48, type: 3}
@@ -7510,6 +7562,7 @@ GameObject:
   - component: {fileID: 373697891}
   - component: {fileID: 373697890}
   - component: {fileID: 373697889}
+  - component: {fileID: 373697894}
   m_Layer: 0
   m_Name: TreeSpot_3
   m_TagString: Untagged
@@ -7656,6 +7709,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373697887}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &373697894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373697887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1001 &383023427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8946,6 +9011,7 @@ GameObject:
   - component: {fileID: 471598800}
   - component: {fileID: 471598799}
   - component: {fileID: 471598798}
+  - component: {fileID: 471598803}
   m_Layer: 0
   m_Name: TreeSpot_5
   m_TagString: Untagged
@@ -9092,6 +9158,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471598796}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &471598803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471598796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1001 &477082981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10264,6 +10342,7 @@ GameObject:
   - component: {fileID: 555954132}
   - component: {fileID: 555954131}
   - component: {fileID: 555954130}
+  - component: {fileID: 555954135}
   m_Layer: 0
   m_Name: TreeSpot_2
   m_TagString: Untagged
@@ -10410,6 +10489,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555954128}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &555954135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555954128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1 &561759783
 GameObject:
   m_ObjectHideFlags: 0
@@ -12798,6 +12889,7 @@ GameObject:
   - component: {fileID: 684154665}
   - component: {fileID: 684154664}
   - component: {fileID: 684154663}
+  - component: {fileID: 684154668}
   m_Layer: 0
   m_Name: VisibleTrash_8
   m_TagString: Untagged
@@ -12941,6 +13033,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684154661}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &684154668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684154661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1001 &688987935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13940,6 +14044,7 @@ GameObject:
   - component: {fileID: 747884513}
   - component: {fileID: 747884512}
   - component: {fileID: 747884511}
+  - component: {fileID: 747884516}
   m_Layer: 0
   m_Name: VisibleTrash_6
   m_TagString: Untagged
@@ -14085,6 +14190,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747884509}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &747884516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747884509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1001 &761297863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15100,6 +15217,7 @@ GameObject:
   - component: {fileID: 848961033}
   - component: {fileID: 848961032}
   - component: {fileID: 848961031}
+  - component: {fileID: 848961036}
   m_Layer: 0
   m_Name: TreeSpot_1
   m_TagString: Untagged
@@ -15246,6 +15364,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848961029}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &848961036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848961029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!4 &851722847 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8318067870173462173, guid: eda928f79ba6b9549ae9bb8ed004f92a, type: 3}
@@ -24194,6 +24324,7 @@ GameObject:
   - component: {fileID: 1318400593}
   - component: {fileID: 1318400592}
   - component: {fileID: 1318400591}
+  - component: {fileID: 1318400596}
   m_Layer: 0
   m_Name: VisibleTrash_3
   m_TagString: Untagged
@@ -24339,6 +24470,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318400589}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1318400596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318400589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1001 &1320802122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27569,6 +27712,7 @@ GameObject:
   - component: {fileID: 1489896913}
   - component: {fileID: 1489896912}
   - component: {fileID: 1489896911}
+  - component: {fileID: 1489896916}
   m_Layer: 0
   m_Name: VisibleTrash_4
   m_TagString: Untagged
@@ -27712,6 +27856,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489896909}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1489896916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489896909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1001 &1492377099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32398,6 +32554,7 @@ GameObject:
   - component: {fileID: 1738675203}
   - component: {fileID: 1738675202}
   - component: {fileID: 1738675201}
+  - component: {fileID: 1738675206}
   m_Layer: 0
   m_Name: VisibleTrash_0
   m_TagString: Untagged
@@ -32543,6 +32700,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738675199}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1738675206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738675199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!4 &1740744911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8082565330314397969, guid: cf29fabe5be425d4fa58702a405410ec, type: 3}
@@ -32801,7 +32970,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 100, y: 100, z: 100}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1745135655
 MonoBehaviour:
@@ -33644,6 +33813,7 @@ GameObject:
   - component: {fileID: 1779088415}
   - component: {fileID: 1779088414}
   - component: {fileID: 1779088413}
+  - component: {fileID: 1779088418}
   m_Layer: 0
   m_Name: VisibleTrash_2
   m_TagString: Untagged
@@ -33787,6 +33957,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779088411}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1779088418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779088411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1 &1779465399
 GameObject:
   m_ObjectHideFlags: 0
@@ -33898,6 +34080,7 @@ GameObject:
   - component: {fileID: 1790750998}
   - component: {fileID: 1790750997}
   - component: {fileID: 1790750996}
+  - component: {fileID: 1790751001}
   m_Layer: 0
   m_Name: VisibleTrash_1
   m_TagString: Untagged
@@ -34041,6 +34224,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790750994}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1790751001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790750994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!1 &1795069680
 GameObject:
   m_ObjectHideFlags: 0
@@ -34967,6 +35162,7 @@ GameObject:
   - component: {fileID: 1854592742}
   - component: {fileID: 1854592741}
   - component: {fileID: 1854592740}
+  - component: {fileID: 1854592745}
   m_Layer: 0
   m_Name: VisibleTrash_5
   m_TagString: Untagged
@@ -35110,6 +35306,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854592738}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1854592745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854592738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5d76e15bb8f429a8b968e0a7707992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashProximityDetector
 --- !u!4 &1868515321 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6476529798019570804, guid: 0fe65fec31a96cc49a3146a03f035c48, type: 3}
@@ -37446,6 +37654,7 @@ GameObject:
   - component: {fileID: 1976170573}
   - component: {fileID: 1976170572}
   - component: {fileID: 1976170571}
+  - component: {fileID: 1976170576}
   m_Layer: 0
   m_Name: TreeSpot_6
   m_TagString: Untagged
@@ -37592,6 +37801,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976170569}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1976170576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976170569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55ea6bd2fbf43e5a020a64227bf2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeSpotProximityDetector
 --- !u!1001 &1978655497
 PrefabInstance:
   m_ObjectHideFlags: 0
