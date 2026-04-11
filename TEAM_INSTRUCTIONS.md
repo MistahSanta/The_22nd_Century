@@ -1,6 +1,6 @@
 # The 22nd Century - Update Notes
 
-**Updated by: Yili | April 8, 2026**
+**Updated by: Katie | April 10, 2026**
 
 ---
 
@@ -30,7 +30,24 @@ All scripts are located in `Assets/custom_scripts/`. Editor tools are in `Assets
 
 ---
 
-## 2. How to Download & Run
+## 2. What Katie Achieved
+
+| Feature                                  | Script File                                                                        | Description                                                            |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Present World Timer | `GameManager.cs`                                                         | 60s countdown timer in Present world (disables interactions when time's up)                   |
+| Shovel Pickup System                         | `ShovelScript.cs`, `ShovelProximityDetector.cs`                                                                | Pick up shovel to plant trees (follows camera when equipped)    |
+| Tree Planting System                      | `TreePlanting.cs`, `TreeSpotProximityDetector.cs`                                                             | Gaze at glowing tree spots, Press A to plant trees       |
+| Tool Switching                      | `GameManager.cs`, `ControllerMapping.cs`                                          | Press X to switch between Garbage Picker and Shovel |
+| Stage-based World Progression            | `GameManager.cs`                                                                   | Future world cleanliness based on combined trash + trees percentage       |
+| Random Time Machine Position                     | `GameManager.cs`                                                                  | Time Machine spawns at random location each time player returns to Future       |
+| Context-based Prompts                | `TrashPickup.cs`, `TreePlanting.cs`, `InteractableObjectScript.cs                                          | Dynamic prompts based on current tool, timer status          |
+| Timer HUD                 | `CleanlinessHUD.cs`                                   | Shows countdown timer and time's up message in Present world                    |
+
+All scripts are located in `Assets/custom_scripts/`. Editor tools are in `Assets/Editor/`.
+
+---
+
+## 3. How to Download & Run
 
 ### Pull Latest Code
 
@@ -64,15 +81,16 @@ git pull origin main
 
 ---
 
-## 3. Controller Mapping
+## 4. Controller Mapping
 
 | Button                | Action                                        |
 | --------------------- | --------------------------------------------- |
 | Joystick              | Move player                                   |
 | Head movement         | Look around (VR) / Mouse (Editor)             |
-| **A** (js11)          | Interact — pick up gun, travel, collect trash |
+| **A** (js10)          | Interact — pick up gun, travel, collect trash, plant trees |
 | **Top / H** (js7)     | Shoot gun                                     |
-| **Y** (js5)           | Jump                                          |
+| **Y** (js3)           | Jump                                          |
+| **X** (js2)           | Switch tool (Garbage Picker <-> Shovel)       |
 | **Menu** (js9 / js13) | Toggle controls help menu                     |
 
 To change mappings: Select **GameManager** object in Hierarchy > Inspector > **ControllerMapping** component.
@@ -85,8 +103,10 @@ To change mappings: Select **GameManager** object in Hierarchy > Inspector > **C
 2. **Pick up Gun** — look at it (blue glow), press A
 3. **Shoot Zombies** — press Top button, zombies turn red and die
 4. **Walk to Time Machine** — look at it, press A to travel to Present
-5. **Pick up Garbage Picker** — blue glow, near Time Machine, press A
-6. **Collect 5 Trash Items** — red glow on the road, look + press A
-7. **Progress bar reaches 5/5** — Time Machine lights up
-8. **Travel back to Future** — walk to Time Machine, press A
-9. **Future is now clean** — blue sky, green trees, restored buildings
+5. **Pick up Garbage Picker** — blue glow, somewhere in Present world, press A
+6. **Pick up Shovel** - green glow, somewhere in Present world, press A
+7. **Collect Trash** — equip Garbage Picker, look at red glowing trash on the road, press A
+8. **Plant Trees** - equip Shovel (press X to switch), look at green glowing spots, press A
+9. **Timer runs out** - interactions disabled, return to Time Machine
+10. **Travel back to Future** — world cleanliness depends on how much trash collected + trees planted
+11. **Repeat** - travel back and forth to make the future cleaner
