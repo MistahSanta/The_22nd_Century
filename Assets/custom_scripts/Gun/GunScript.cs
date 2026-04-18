@@ -46,20 +46,6 @@ public class GunScript : MonoBehaviour
         col.size = Vector3.one * 5f;
         col.isTrigger = true;
 
-        // Ensure gun_barrel exists
-        if (gun_barrel == null)
-        {
-            gun_barrel = transform.Find("gun_barrel");
-            if (gun_barrel == null)
-            {
-                GameObject b = new GameObject("gun_barrel");
-                b.transform.SetParent(transform, false);
-                b.transform.localPosition = new Vector3(0, 0.05f, 0.3f);
-                gun_barrel = b.transform;
-            }
-        }
-
-        Debug.Log($"Gun ready at {transform.position}, collider center={col.center} size={col.size}");
 
         // Also add self-detection (backup if raycast fails)
         if (GetComponent<GunProximityDetector>() == null)
@@ -87,13 +73,11 @@ public class GunScript : MonoBehaviour
         if (bullet == null)
         {
             Debug.LogWarning("Gun: bullet not assigned!");
-            HapticFeedback.VibrateShoot();
             return;
         }
 
-        bullet.SetActive(true);
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
-            Quaternion.identity);
+            Quaternion.Euler(90,0,0));
         b.SetActive(true);
         Rigidbody rb = b.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
@@ -101,7 +85,6 @@ public class GunScript : MonoBehaviour
         HapticFeedback.VibrateShoot();
         if (muzzle_flash != null) muzzle_flash.Play();
         Destroy(b, 4);
-        bullet.SetActive(false);
     }
 
     void LateUpdate()
@@ -112,7 +95,7 @@ public class GunScript : MonoBehaviour
             + main_camera.right * 0.25f - main_camera.up * 0.25f;
         transform.position = Vector3.Lerp(transform.position, target, equip_speed * Time.deltaTime);
         // Rotate gun to face forward (away from player)
-        transform.rotation = main_camera.rotation * Quaternion.Euler(0, 180, 0);
+        transform.rotation = main_camera.rotation * Quaternion.Euler(0, 0, 0);
 
         bool shoot = ControllerMapping.Instance != null
             ? ControllerMapping.Instance.GetShootDown()
