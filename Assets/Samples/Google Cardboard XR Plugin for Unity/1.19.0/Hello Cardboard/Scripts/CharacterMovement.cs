@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : NetworkBehaviour
 {
+    private NetworkCharacterController _cc;
     CharacterController charCntrl;
     [Tooltip("The speed at which the character will move.")]
     public float speed = 5f;
@@ -12,28 +14,30 @@ public class CharacterMovement : MonoBehaviour
     [Tooltip("Should be checked if using the Bluetooth Controller to move. If using keyboard, leave this unchecked.")]
     public bool joyStickMode;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        charCntrl = GetComponent<CharacterController>();
+        _cc = GetComponent<NetworkCharacterController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void FixedUpdateNetwork()
     {
-        //Get horizontal and Vertical movements
-        float horComp = Input.GetAxis("Horizontal");
-        float vertComp = Input.GetAxis("Vertical");
-
-        if (joyStickMode)
+        
+        // GetInput retrieves the data sent from the local player to the server
+        if (GetInput(out NetworkInputData data))
         {
-            horComp = Input.GetAxis("Vertical");
-            vertComp = Input.GetAxis("Horizontal") * -1;
+            Debug.Log("Input received: " + data.Direction);
+            Vector3 moveVect = CalculateMoveDirection(data.Direction);
+            
+            // In Fusion, we use the NetworkCharacterController's Move method
+            _cc.Move(moveVect * speed * Runner.DeltaTime);
         }
+    }
 
-        Vector3 moveVect = Vector3.zero;
+    private Vector3 CalculateMoveDirection(Vector3 inputDir)
+    {
+        if (cameraObj == null) return Vector3.zero;
 
-        //Get look Direction
         Vector3 cameraLook = cameraObj.transform.forward;
         cameraLook.y = 0f;
         cameraLook = cameraLook.normalized;
@@ -41,14 +45,47 @@ public class CharacterMovement : MonoBehaviour
         Vector3 forwardVect = cameraLook;
         Vector3 rightVect = Vector3.Cross(forwardVect, Vector3.up).normalized * -1;
 
-        moveVect += rightVect * horComp;
-        moveVect += forwardVect * vertComp;
+        Vector3 moveVect = (rightVect * inputDir.x) + (forwardVect * inputDir.z);
+        return moveVect.normalized;
+    }
 
-        moveVect *= speed;
+    // Start is called before the first frame update
+    // void Start()
+    // {
+    //     charCntrl = GetComponent<CharacterController>();
+    // }
+
+    // Update is called once per frame
+    // void Update()
+    // {
+    //     //Get horizontal and Vertical movements
+    //     float horComp = Input.GetAxis("Horizontal");
+    //     float vertComp = Input.GetAxis("Vertical");
+
+    //     if (joyStickMode)
+    //     {
+    //         horComp = Input.GetAxis("Vertical");
+    //         vertComp = Input.GetAxis("Horizontal") * -1;
+    //     }
+
+    //     Vector3 moveVect = Vector3.zero;
+
+    //     //Get look Direction
+    //     Vector3 cameraLook = cameraObj.transform.forward;
+    //     cameraLook.y = 0f;
+    //     cameraLook = cameraLook.normalized;
+
+    //     Vector3 forwardVect = cameraLook;
+    //     Vector3 rightVect = Vector3.Cross(forwardVect, Vector3.up).normalized * -1;
+
+    //     moveVect += rightVect * horComp;
+    //     moveVect += forwardVect * vertComp;
+
+    //     moveVect *= speed;
      
 
-        charCntrl.SimpleMove(moveVect);
+    //     charCntrl.SimpleMove(moveVect);
 
 
-    }
+    // }
 }

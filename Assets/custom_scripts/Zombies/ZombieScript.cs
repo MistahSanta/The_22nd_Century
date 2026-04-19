@@ -32,7 +32,7 @@ public class ZombieScript : MonoBehaviour
             if (animator != null) animator.SetTrigger("Die");
             agent.isStopped = true;
             // Fade out and destroy
-            Destroy(gameObject, 1.2f);
+            Destroy(gameObject, 1f);
             return;
         }
 
