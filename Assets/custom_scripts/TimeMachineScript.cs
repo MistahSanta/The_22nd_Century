@@ -8,10 +8,12 @@ public class TimeMachineScript : MonoBehaviour
 
     void Start()
     {
+        
         // Make collider big enough for raycast (model is scale 0.05)
         BoxCollider col = GetComponent<BoxCollider>();
         if (col == null) col = gameObject.AddComponent<BoxCollider>();
-        col.size = new Vector3(60f, 60f, 60f);
+        //col.size = new Vector3(60f, 60f, 60f);
+        col.size = new Vector3(100f, 100f,100f);
         col.center = new Vector3(0, 30f, 0);
         col.isTrigger = true;
 
@@ -62,12 +64,13 @@ public class TimeMachineScript : MonoBehaviour
     public void ActivateTravel()
     {
         if (GameManager.Instance == null) return;
-
+        Debug.Log("Travel button is pressed");
         // Check distance
-        GameObject player = GameObject.Find("Player");
+        Transform player = LocalPlayerHolder.LocalCamera;
+
         if (player != null)
         {
-            float dist = Vector3.Distance(player.transform.position, transform.position);
+            float dist = Vector3.Distance(player.position, transform.position);
             if (dist > interactRange)
             {
                 Debug.Log($"Too far: {dist:F1}m (need < {interactRange}m)");

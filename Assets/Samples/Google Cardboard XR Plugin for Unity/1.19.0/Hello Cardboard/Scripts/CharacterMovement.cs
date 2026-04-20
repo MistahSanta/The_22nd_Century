@@ -6,14 +6,7 @@ using UnityEngine;
 public class CharacterMovement : NetworkBehaviour
 {
     private NetworkCharacterController _cc;
-    CharacterController charCntrl;
-    [Tooltip("The speed at which the character will move.")]
     public float speed = 5f;
-    [Tooltip("The camera representing where the character is looking.")]
-    public GameObject cameraObj;
-    [Tooltip("Should be checked if using the Bluetooth Controller to move. If using keyboard, leave this unchecked.")]
-    public bool joyStickMode;
-
 
     private void Awake()
     {
@@ -22,31 +15,32 @@ public class CharacterMovement : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        
-        // GetInput retrieves the data sent from the local player to the server
         if (GetInput(out NetworkInputData data))
         {
-            Debug.Log("Input received: " + data.Direction);
-            Vector3 moveVect = CalculateMoveDirection(data.Direction);
+            // Normalize the input to ensure diagonal movement isn't faster
+            Vector3 inputDir = data.Direction.normalized;
+
+            Vector3 moveVect = CalculateMoveDirection(inputDir);
             
-            // In Fusion, we use the NetworkCharacterController's Move method
             _cc.Move(moveVect * speed * Runner.DeltaTime);
         }
     }
 
     private Vector3 CalculateMoveDirection(Vector3 inputDir)
     {
-        if (cameraObj == null) return Vector3.zero;
+        // Use the Transform of the NetworkObject or a stable reference
+        // In VR, it's often better to move relative to the "Forward" of the XR Rig
+        Transform camTransform = Camera.main.transform;
+        
+        Vector3 forward = camTransform.forward;
+        forward.y = 0;
+        forward.Normalize();
 
-        Vector3 cameraLook = cameraObj.transform.forward;
-        cameraLook.y = 0f;
-        cameraLook = cameraLook.normalized;
+        Vector3 right = camTransform.right;
+        right.y = 0;
+        right.Normalize();
 
-        Vector3 forwardVect = cameraLook;
-        Vector3 rightVect = Vector3.Cross(forwardVect, Vector3.up).normalized * -1;
-
-        Vector3 moveVect = (rightVect * inputDir.x) + (forwardVect * inputDir.z);
-        return moveVect.normalized;
+        return (forward * inputDir.z) + (right * inputDir.x);
     }
 
     // Start is called before the first frame update

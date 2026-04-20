@@ -7,23 +7,33 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     public float rayRange = 50f;
-    Camera mainCam;
+    Transform mainCam = null;
     InteractableObjectScript currentTarget;
 
-    void Start()
-    {
-        mainCam = Camera.main;
-    }
+
 
     void Update()
     {
         if (mainCam == null)
-        {
-            mainCam = Camera.main;
-            return;
+        { // Updated to work with multiplayer
+            mainCam = LocalPlayerHolder.LocalCamera;
+            Debug.Log("Setting first");
+            if (mainCam == null)
+            {
+                mainCam = LocalPlayerHolder.GetLocalCamera();
+                if (mainCam == null)
+                {
+                    Debug.Log("CAMERA IS TSILL NULL");
+                    return;
+                }
+            }
+            
+            Debug.Log("Main Camera set for player!");
         }
 
-        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
+        Debug.DrawRay(mainCam.position, mainCam.forward * rayRange, Color.red);
+        
+        Ray ray = new Ray(mainCam.position, mainCam.forward);
         RaycastHit[] hits = Physics.RaycastAll(ray, rayRange);
 
         InteractableObjectScript closest = null;

@@ -92,7 +92,9 @@ public class InteractableObjectScript : MonoBehaviour
 
         if (interact && runButtonClickFunction != null)
         {
+            
             runButtonClickFunction.Invoke();
+
             pointer_on_obj = false;
             currentlyTargeted = null;
             SetHighlight(false);

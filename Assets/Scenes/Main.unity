@@ -1414,6 +1414,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1020223124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &69304541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 69304542}
+  m_Layer: 0
+  m_Name: Time_Machine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &69304542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69304541}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.96062, y: 0.18472, z: 8.49131}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1192977209}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &72308885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10998,7 +11030,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dab5b7dbb194882896fbab1fd3663f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunScript
-  main_camera: {fileID: 0}
   bullet: {fileID: 1619777941}
   gun_barrel: {fileID: 39750232}
   muzzle_flash: {fileID: 1138452042}
@@ -16393,7 +16424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677af678d32b540bcb5444d196c730ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _playerPrefab: {fileID: 6237000346592520877, guid: 7e0c6c2695467eadd8f257c11eba6f79, type: 3}
+  _playerPrefab:
+    RawGuidValue: 7e0c6c2695467eadd8f257c11eba6f79
 --- !u!4 &861156678
 Transform:
   m_ObjectHideFlags: 0
@@ -23544,7 +23576,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 69304542}
     m_Modifications:
     - target: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_Name
@@ -23564,15 +23596,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: -19.96062
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.31528002
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -11.49131
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23611,13 +23643,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1192977212}
-    - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1192977211}
     - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1192977210}
+    - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1192977213}
+    - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1192977214}
   m_SourcePrefab: {fileID: -5645937942226959685, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
 --- !u!1 &1192977208 stripped
 GameObject:
@@ -23673,7 +23708,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeMachineScript
   portalLight: {fileID: 725923013}
   interactRange: 5
---- !u!65 &1192977212
+--- !u!114 &1192977213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192977208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1192977210}
+          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1192977210}
+          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
+          m_MethodName: OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!65 &1192977214
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23692,8 +23772,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 4, z: 4}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1194231454
 GameObject:
   m_ObjectHideFlags: 0
@@ -43977,5 +44057,5 @@ SceneRoots:
   - {fileID: 1808447853}
   - {fileID: 2127443637}
   - {fileID: 1249996132}
-  - {fileID: 1192977207}
   - {fileID: 861156678}
+  - {fileID: 69304542}

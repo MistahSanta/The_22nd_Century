@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9013989713267733764}
-  - component: {fileID: 8126175039147856467}
   - component: {fileID: 8239092936101054724}
   - component: {fileID: 3488056663516566042}
   - component: {fileID: 6543807999282136835}
@@ -17,8 +16,10 @@ GameObject:
   - component: {fileID: 7232245232791576943}
   - component: {fileID: 1178276153429769530}
   - component: {fileID: 2337923276678198061}
-  - component: {fileID: 1333338019668041690}
-  - component: {fileID: 8957362949700975258}
+  - component: {fileID: 6298269778087852242}
+  - component: {fileID: 4195991248708878380}
+  - component: {fileID: 4841252439396379466}
+  - component: {fileID: 8054871499524638224}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -42,31 +43,6 @@ Transform:
   - {fileID: 6658750213548300429}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &8126175039147856467
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6237000346592520877}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 60
-  m_StepOffset: 0.5
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8239092936101054724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,8 +56,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   speed: 5
-  cameraObj: {fileID: 6658750213060965768}
-  joyStickMode: 1
 --- !u!114 &3488056663516566042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerDebug
   showDebug: 0
---- !u!114 &1333338019668041690
+--- !u!114 &6298269778087852242
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,15 +152,41 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 3653705971
+  SortKey: 2436851396
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8239092936101054724}
-  - {fileID: 8957362949700975258}
+  - {fileID: 4841252439396379466}
+  - {fileID: 8054871499524638224}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &8957362949700975258
+--- !u!143 &4195991248708878380
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237000346592520877}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4841252439396379466
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,10 +201,22 @@ MonoBehaviour:
   _stateAuthorityChangeErrorCorrectionDelta: 0
   gravity: -20
   jumpImpulse: 8
-  acceleration: 10
-  braking: 10
-  maxSpeed: 2
-  rotationSpeed: 15
+  acceleration: 100
+  braking: 100
+  maxSpeed: 6
+  rotationSpeed: 5
+--- !u!114 &8054871499524638224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237000346592520877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b1267d41fea8ec18951ed7ebd6b65a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &4128040028648987932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -270,11 +282,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
---- !u!1 &6658750213060965768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7287137020755404948, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
-  m_PrefabInstance: {fileID: 4128040028648987932}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6658750213548300429 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7287137019966064017, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}

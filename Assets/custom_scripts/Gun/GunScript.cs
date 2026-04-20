@@ -4,7 +4,7 @@ public class GunScript : MonoBehaviour
 {
     private bool gun_equip = false;
     private float equip_speed = 8f;
-    public Transform main_camera;
+    private Transform main_camera;
     public GameObject bullet;
     public Transform gun_barrel;
     public ParticleSystem muzzle_flash;
@@ -58,6 +58,22 @@ public class GunScript : MonoBehaviour
     {
         gun_equip = true;
         Debug.Log("Gun equipped!");
+
+    // Directly grab the camera assigned to the local user
+        if (LocalPlayerHolder.LocalCamera != null)
+        {
+            main_camera = LocalPlayerHolder.LocalCamera;
+            gun_equip = true;
+            Debug.Log("Gun attached to local player camera.");
+        }
+        else
+        {
+            // Safety fallback
+            main_camera = Camera.main?.transform;
+            gun_equip = true;
+            Debug.LogWarning("LocalPlayerHolder not set, falling back to Camera.main");
+        }
+
 
         if (gunLight != null) gunLight.enabled = false;
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
