@@ -9,6 +9,7 @@ public class InteractableObjectScript : MonoBehaviour
     [Header("Settings")]
     public string promptText = "Interact";
     public float maxInteractDistance = 5f;
+    public bool isPlayerLooking = false;
 
     static InteractableObjectScript currentlyTargeted;
 
@@ -59,7 +60,6 @@ public class InteractableObjectScript : MonoBehaviour
 
         return display + "\n[Press A]";
     }
-
     void SetHighlight(bool on)
     {
         try

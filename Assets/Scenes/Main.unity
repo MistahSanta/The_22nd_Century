@@ -226,6 +226,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &2148242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +736,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &38583087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,7 +1425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 69304542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Time_Machine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2372,6 +2374,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &99930358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2594,6 +2597,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &109746869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3537,6 +3541,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5747150043693871938, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6327094460381002365, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3544,6 +3552,10 @@ PrefabInstance:
     - target: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
       propertyPath: m_Name
       value: SM_Bullet_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
       propertyPath: m_IsActive
@@ -3766,6 +3778,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &150517067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3846,6 +3859,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Wrapper
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &157677333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4090,6 +4104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!1001 &161696747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4532,6 +4548,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &167904001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5026,6 +5043,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &216027126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5685,6 +5703,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &239714332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6034,6 +6053,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &257125542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6509,6 +6529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!1 &273731089
 GameObject:
   m_ObjectHideFlags: 0
@@ -7114,6 +7136,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &292929729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7408,6 +7431,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Can
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &328211799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8219,6 +8243,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &373697890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8569,6 +8594,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &385728875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9750,6 +9776,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &471598799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10213,7 +10240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 504522424}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10229,7 +10256,7 @@ Transform:
   m_GameObject: {fileID: 504522423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14, y: 1.038, z: -10}
+  m_LocalPosition: {x: -14, y: 1, z: -10.0113}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11063,93 +11090,28 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Pick up Gun
   maxInteractDistance: 5
---- !u!114 &553537898
-MonoBehaviour:
+  isPlayerLooking: 0
+--- !u!65 &553537898
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553537893}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 553537899}
-          m_TargetAssemblyTypeName: Outline, Assembly-CSharp
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 553537897}
-          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
-          m_MethodName: PointerEnter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 553537899}
-          m_TargetAssemblyTypeName: Outline, Assembly-CSharp
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 553537897}
-          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
-          m_MethodName: OnPointerExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &553537899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553537893}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Outline
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 0.0057217954, z: 0}
 --- !u!1001 &553944166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11279,6 +11241,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &555954131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11897,9 +11860,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 504522424}
     m_Modifications:
+    - target: {fileID: 1267406449796445030, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267406449796445032, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267406449796445034, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267406449796445036, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267406449796445038, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3036919534618684879, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370543026005902478, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
       propertyPath: m_Name
       value: M1911 Handgun_Silver
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7758120633704492663, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7758160312520166543, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7758160312520166543, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
       propertyPath: m_IsActive
@@ -11957,6 +11960,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8592250530825237759, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -11969,19 +11976,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 553537899}
-    - targetCorrespondingSourceObject: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 553537898}
-    - targetCorrespondingSourceObject: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 553537897}
     - targetCorrespondingSourceObject: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
       insertIndex: -1
       addedObject: {fileID: 553537895}
-    - targetCorrespondingSourceObject: {fileID: 1267406449796445034, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7757947126742549135, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1539239607}
+      addedObject: {fileID: 553537898}
   m_SourcePrefab: {fileID: 100100000, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
 --- !u!1001 &595508917
 PrefabInstance:
@@ -12090,6 +12091,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &595508921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12938,6 +12940,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &637506971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13753,6 +13756,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &683000720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13833,6 +13837,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Debris
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &684154664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14482,6 +14487,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &711094760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14633,7 +14639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725923014}
   - component: {fileID: 725923013}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PortalLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15107,6 +15113,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Bottle
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &747884512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15548,6 +15555,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &767251528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15672,6 +15680,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &778732323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16253,6 +16262,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &848961032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17128,6 +17138,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &881841962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17731,6 +17742,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!1 &915072582
 GameObject:
   m_ObjectHideFlags: 0
@@ -19762,6 +19775,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1011779477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20241,6 +20255,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1023665186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21498,6 +21513,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1075891552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21617,6 +21633,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1076467351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21843,6 +21860,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1086511562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22450,6 +22468,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!95 &1141298545
 Animator:
   serializedVersion: 7
@@ -22968,6 +22988,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Pick up Shovel
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &1159618337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23495,6 +23516,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1186627173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23578,9 +23600,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 69304542}
     m_Modifications:
+    - target: {fileID: -8551495444214887495, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6973607904238574346, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_Name
       value: TimeMachine
+      objectReference: {fileID: 0}
+    - target: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6468080297605531018, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4218503256510305196, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -2917539052807122225, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1478420376018817696, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -112222766855439931, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       propertyPath: m_LocalScale.x
@@ -23634,6 +23688,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4047610559049902147, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069487332582792992, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5031805408014633897, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631519387065622714, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719349636687488575, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946268158879115634, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7177279855299633895, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7237982530543269674, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -23649,10 +23735,7 @@ PrefabInstance:
       addedObject: {fileID: 1192977210}
     - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1192977213}
-    - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1192977214}
+      addedObject: {fileID: 1192977212}
   m_SourcePrefab: {fileID: -5645937942226959685, guid: b84657fbf1f7b474d9c263d22f14f51c, type: 3}
 --- !u!1 &1192977208 stripped
 GameObject:
@@ -23694,6 +23777,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Travel through Time
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &1192977211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23708,52 +23792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeMachineScript
   portalLight: {fileID: 725923013}
   interactRange: 5
---- !u!114 &1192977213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192977208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1192977210}
-          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
-          m_MethodName: PointerEnter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1192977210}
-          m_TargetAssemblyTypeName: InteractableObjectScript, Assembly-CSharp
-          m_MethodName: OnPointerExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!65 &1192977214
+--- !u!65 &1192977212
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23768,11 +23807,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 60, y: 60, z: 60}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1194231454
 GameObject:
@@ -24003,6 +24042,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eda928f79ba6b9549ae9bb8ed004f92a, type: 3}
+--- !u!1 &1204749112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1204749113}
+  m_Layer: 0
+  m_Name: Lighting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1204749113
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204749112}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.59638, y: 0.18472, z: 4.84079}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1396917984}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206185738
 GameObject:
   m_ObjectHideFlags: 0
@@ -24387,6 +24458,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!95 &1213435968
 Animator:
   serializedVersion: 7
@@ -24656,6 +24729,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1225984628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25384,6 +25458,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1252680114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25636,6 +25711,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1275425496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25755,6 +25831,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1278302027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25953,6 +26030,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1289424862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26457,6 +26535,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1317521302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26537,6 +26616,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Debris
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1318400592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27164,6 +27244,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1369706067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27628,11 +27709,11 @@ Transform:
   m_GameObject: {fileID: 1396917982}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -1.59638, y: 2.81528, z: -4.84079}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1204749113}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &1398504608
 PrefabInstance:
@@ -28851,6 +28932,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1446945435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29268,6 +29350,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1472439390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29645,6 +29728,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Wrapper
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1489896912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29920,6 +30004,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1493494758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30136,6 +30221,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1494151407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30479,6 +30565,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1510787783}
+    - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1510787788}
+    - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1510787787}
   m_SourcePrefab: {fileID: 100100000, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
 --- !u!4 &1510787781 stripped
 Transform:
@@ -30549,6 +30641,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
+--- !u!114 &1510787787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510787782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3040284425
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1510787785}
+  - {fileID: 1510787788}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1510787788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510787782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkTransform
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &1510905217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30954,33 +31085,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1539239605 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1267406449796445034, guid: 5c59210965ffbcc4093fe99a29edb777, type: 3}
-  m_PrefabInstance: {fileID: 592636455}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1539239607
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539239605}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 3d87184bf4725b841b26693d2234fffd, type: 3}
 --- !u!1001 &1541657875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31483,6 +31587,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1559263284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32010,6 +32115,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1605715352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32505,6 +32611,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieScript
   moveSpeed: 0.5
   rotateSpeed: 3
+  agent: {fileID: 0}
+  detectionRange: 15
 --- !u!21 &1623979504
 Material:
   serializedVersion: 8
@@ -34118,6 +34226,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1697859135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34661,6 +34770,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1710415279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34684,6 +34794,14 @@ PrefabInstance:
     - target: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
       propertyPath: m_Name
       value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845643716156742, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: 3dd9cf2e209c504448f1c4c6835675cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35399,6 +35517,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Trash Bag
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1738675202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35836,6 +35955,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Pick up Garbage Picker
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1745135657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36787,6 +36907,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Can
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1779088414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37054,6 +37175,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Bottle
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1790750997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37263,6 +37385,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1796351068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38230,6 +38353,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Trash Bag
   maxInteractDistance: 4
+  isPlayerLooking: 0
 --- !u!114 &1854592741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38444,6 +38568,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1871509940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38721,6 +38846,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1882127878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40443,6 +40569,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1961775604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40744,6 +40871,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 5
+  isPlayerLooking: 0
 --- !u!114 &1976170572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41668,6 +41796,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &1991397853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42863,6 +42992,7 @@ MonoBehaviour:
         m_CallState: 2
   promptText: Interact
   maxInteractDistance: 8
+  isPlayerLooking: 0
 --- !u!114 &2066070948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44046,7 +44176,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1675132500}
-  - {fileID: 1396917984}
   - {fileID: 504522424}
   - {fileID: 1626601567}
   - {fileID: 1061568454}
@@ -44059,3 +44188,4 @@ SceneRoots:
   - {fileID: 1249996132}
   - {fileID: 861156678}
   - {fileID: 69304542}
+  - {fileID: 1204749113}

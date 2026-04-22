@@ -39,17 +39,10 @@ public class GunScript : MonoBehaviour
         gunLight.range = 12f;
         gunLight.intensity = 4f;
 
-        // Big BoxCollider for easy detection from all angles
-        BoxCollider col = GetComponent<BoxCollider>();
-        if (col == null) col = gameObject.AddComponent<BoxCollider>();
-        col.center = transform.InverseTransformPoint(bounds.center);
-        col.size = Vector3.one * 5f;
-        col.isTrigger = true;
-
 
         // Also add self-detection (backup if raycast fails)
-        if (GetComponent<GunProximityDetector>() == null)
-            gameObject.AddComponent<GunProximityDetector>();
+        // if (GetComponent<GunProximityDetector>() == null)
+        //     gameObject.AddComponent<GunProximityDetector>();
     }
 
     public bool IsEquipped() { return gun_equip; }
@@ -58,6 +51,11 @@ public class GunScript : MonoBehaviour
     {
         gun_equip = true;
         Debug.Log("Gun equipped!");
+
+        // Disable collider, so raycast doesn't accidently show popup menu 
+        // while holding the gun 
+        BoxCollider myCollider = GetComponent<BoxCollider>();
+        myCollider.enabled = false;
 
     // Directly grab the camera assigned to the local user
         if (LocalPlayerHolder.LocalCamera != null)
