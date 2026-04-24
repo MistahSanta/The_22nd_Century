@@ -88,7 +88,10 @@ public class SettingManagerScript : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("js9") || Input.GetButtonDown("js4") || Input.GetButtonDown("js10"))
+        bool a_button = ControllerMapping.Instance != null
+                ? ControllerMapping.Instance.GetInteractDown()
+                : Input.GetKeyDown(KeyCode.E);
+        if (a_button)
         { // 'a' button on joystick or 'e' button keyboard
             // Run button
             IButton cur_button = buttons[current_button_index].GetComponent<IButton>();

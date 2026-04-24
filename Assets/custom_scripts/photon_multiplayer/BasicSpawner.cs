@@ -74,6 +74,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         // Create the Fusion runner and let it know that we will be providing user input
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
+        
 
         // Create the NetworkSceneInfo from the current scene
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
@@ -97,13 +98,34 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (_runner == null)
         {
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
-            {
-                StartGame(GameMode.Host);
-            }
+            GUI.Label(new Rect(0, 0, 200, 40), "Press A to Host");
+            GUI.Label(new Rect(0, 40, 200, 40), "Press B to Join");
+        }
+    }
 
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+    private void Update()
+    {
+        if (_runner == null)
+        {
+
+            // Honestly do not want to create another menu to select, so just use buttons
+            
+
+            bool a_button = ControllerMapping.Instance != null
+                    ? ControllerMapping.Instance.GetInteractDown()
+                    : Input.GetKeyDown(KeyCode.E);
+            bool x_button = ControllerMapping.Instance != null 
+                    ? ControllerMapping.Instance.GetSwitchToolDown()
+                    : Input.GetKeyDown(KeyCode.X);
+
+            if (a_button)
             {
+                Debug.Log("Starting as HOST...");
+                StartGame(GameMode.Host);
+            } 
+            else if (x_button)
+            {
+                Debug.Log("Starting as CLIENT...");
                 StartGame(GameMode.Client);
             }
         }

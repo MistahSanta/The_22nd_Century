@@ -15,10 +15,11 @@ public class ControlsMenu : NetworkBehaviour
 
     [Header("Follow Settings")]
     Transform playerCamera;
-    public float followDistance = 2f;
+    public float followDistance = 3f;
 
     public bool isVisible = false;
     public GameObject setting_menu;
+     
 
     public override void Spawned()
     {
@@ -58,7 +59,8 @@ public class ControlsMenu : NetworkBehaviour
                 "  Look at portal + A - Time travel\n\n" +
                 "<b>Physical Gestures</b>\n" +
                 "  Jump (move up fast) - Jump in game\n" +
-                "  Crouch (move down fast) - Crouch in game";
+                "  Crouch (move down fast) - Crouch in game\n\n" +
+                "<b>Press the 'A' button to close</b>";
         }
 
         if (menuPanel != null)
@@ -67,34 +69,24 @@ public class ControlsMenu : NetworkBehaviour
 
     void Update()
     {
-        // Toggle menu with menu button (js11) or M key
-        // bool menu = ControllerMapping.Instance != null
-        //     ? ControllerMapping.Instance.GetMenuDown()
-        //     : Input.GetKeyDown(KeyCode.M);
-        // if (menu)
-        // {
-        //     isVisible = !isVisible;
-        //     if (menuPanel != null)
-        //         menuPanel.SetActive(isVisible);
-        // }
-
         // Position in front of player when visible
         if (isVisible && playerCamera != null)
         {
             Vector3 targetPos = playerCamera.position
-                + playerCamera.forward * followDistance
-                + Vector3.up * 0.2f;
+                + playerCamera.forward * 3f
+                + Vector3.up * 0.15f;
             transform.position = targetPos;
             transform.rotation = Quaternion.LookRotation(transform.position - playerCamera.position);
         
-            bool menu = ControllerMapping.Instance != null
-                ? ControllerMapping.Instance.GetMenuDown()
-                : Input.GetKeyDown(KeyCode.M);
-            if (menu)
+            bool a_button = ControllerMapping.Instance != null
+                ? ControllerMapping.Instance.GetInteractDown()
+                : Input.GetKeyDown(KeyCode.E);
+            if (a_button)
             {
                 isVisible = false;
-                
-                
+                menuPanel.SetActive(false);
+                SettingManagerScript script = setting_menu.GetComponent<SettingManagerScript>();
+                script.menu_is_open = false; 
             }
         }
     }
