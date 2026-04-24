@@ -18,6 +18,7 @@ public class ControllerMapping : MonoBehaviour
     [Header("Menu (Menu Button)")]
     public string menuButton1 = "js9";   // menu toggle 1
     public string menuButton2 = "js13";  // menu toggle 2
+    public string menuButton3 = "js8";
 
     [Header("Jump (Y Button)")]
     public string jumpButton = "js3";    // controller Y
@@ -51,7 +52,7 @@ public class ControllerMapping : MonoBehaviour
 
     public bool GetMenuDown()
     {
-        return SafeGetButtonDown(menuButton1) || SafeGetButtonDown(menuButton2)
+        return SafeGetButtonDown(menuButton1) || SafeGetButtonDown(menuButton2) || SafeGetButtonDown(menuButton3)
             || Input.GetKeyDown(KeyCode.M);
     }
 

@@ -36,7 +36,7 @@ public class ZombieScript : NetworkBehaviour
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             animator.SetTrigger("Idle");
-            Debug.Log("No player found for zombie!");
+            //Debug.Log("No player found for zombie!");
         }
     }
 
@@ -58,7 +58,7 @@ public class ZombieScript : NetworkBehaviour
                     closestPlayer = playerObj.transform;
                 }else
                 {
-                    Debug.Log("Cant find player object!");
+                    //Debug.Log("Cant find player object!");
                 }
             }
         }
