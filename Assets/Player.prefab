@@ -539,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &615262652073684066
 Transform:
   m_ObjectHideFlags: 0
@@ -716,7 +716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
   SortKey: 2436851396
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8239092936101054724}
@@ -782,6 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b1267d41fea8ec18951ed7ebd6b65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  localOnlyObjects: {fileID: 4601872554721257122}
 --- !u!114 &8989379970726965268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1306,6 +1307,10 @@ PrefabInstance:
     - target: {fileID: 7287137019966064018, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
       propertyPath: m_Name
       value: XRCardboardRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287137020585607023, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7287137020755404942, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
       propertyPath: m_LocalPosition.x

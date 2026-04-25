@@ -25,13 +25,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            // Create a unique position for the player
             
-            Vector3 spawnPosition = new Vector3(-16, 4, -12);
+            Vector3 spawnPosition = new Vector3(-16, 1, -12);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
+            
+            
             runner.SetPlayerObject(player, networkPlayerObject);
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
+
+
             
             if (_spawnedCharacters.Count == 1)
             {  // Start nav mesh on that player now that a player exist now
@@ -70,7 +73,17 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         float x = Input.GetAxis("Vertical");
         float z = -Input.GetAxis("Horizontal");
 
+
+        // Keyboard fallback
+        if (x == 0) x = (Input.GetKey(KeyCode.A) ? -1f : 0f) + (Input.GetKey(KeyCode.D) ? 1f : 0f);
+        if (z == 0) z = (Input.GetKey(KeyCode.S) ? -1f : 0f) + (Input.GetKey(KeyCode.W) ? 1f : 0f);
+
+
         data.Direction = new Vector3(x, 0, z);
+
+        Transform cam = LocalPlayerHolder.GetLocalCamera();
+        if (cam != null)
+            data.CameraYaw = cam.eulerAngles.y;
 
         input.Set(data);
 
@@ -101,6 +114,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         _runner.ProvideInput = true;
         
 
+        _runner.AddCallbacks(this);
+        
         // Create the NetworkSceneInfo from the current scene
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
         var sceneInfo = new NetworkSceneInfo();
@@ -117,6 +132,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
+
     }
 
 

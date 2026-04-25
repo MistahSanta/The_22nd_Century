@@ -14,20 +14,21 @@ public class CharacterMovement : NetworkBehaviour
         _cc = GetComponent<NetworkCharacterController>();
     }
 
+
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasInputAuthority) return; // guard for non-local players
-        
 
         if (GetInput(out NetworkInputData data))
         {
-            
+
+
             Vector3 inputDir = data.Direction.normalized;
+
             Vector3 moveVect;
 
-            if (LocalPlayerHolder.LocalCamera != null) 
+            if (LocalPlayerHolder.GetLocalCamera() != null) 
             {
-                float headsetYaw = LocalPlayerHolder.LocalCamera.transform.eulerAngles.y;
+                float headsetYaw = data.CameraYaw;
                 Quaternion flatRotation = Quaternion.Euler(0, headsetYaw, 0);
 
                 Vector3 forward = flatRotation * Vector3.forward;
@@ -43,6 +44,8 @@ public class CharacterMovement : NetworkBehaviour
             }
 
             _cc.Move(moveVect * speed * Runner.DeltaTime);
+
+
         }         
     }
 }

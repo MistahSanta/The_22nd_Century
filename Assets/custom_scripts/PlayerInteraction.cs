@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using System.Collections;
 
 /// <summary>
 /// Raycasts from camera center to detect interactable objects.
@@ -17,12 +18,31 @@ public class PlayerInteraction : NetworkBehaviour
         if (!Object.HasInputAuthority) return; // Don't set up camera for remote players
         
         // Use the already-found local camera instead of searching hierarchy
-        mainCam = LocalPlayerHolder.GetLocalCamera()?.GetComponent<Camera>();
+        // mainCam = LocalPlayerHolder.GetLocalCamera()?.GetComponent<Camera>();
         
-        if (mainCam == null)
-            Debug.LogWarning("[PlayerInterction] No camera found via LocalPlayerHolder");
+        // if (mainCam == null)
+        //     Debug.LogWarning("[PlayerInterction] No camera found via LocalPlayerHolder");
+
+        StartCoroutine(WaitForCamera());
     }
 
+    private IEnumerator WaitForCamera()
+    {
+        int attempts = 0;
+        while (attempts < 20)
+        {
+            Transform camTransform = LocalPlayerHolder.GetLocalCamera();
+            if (camTransform != null)
+            {
+                mainCam = camTransform.GetComponent<Camera>();
+                Debug.Log("[PlayerInteraction] Camera ready");
+                yield break;
+            }
+            yield return new WaitForSeconds(0.2f);
+            attempts++;
+        }
+        Debug.LogError("[PlayerInteraction] Camera never found!");
+    }
 
     void Update()
     {

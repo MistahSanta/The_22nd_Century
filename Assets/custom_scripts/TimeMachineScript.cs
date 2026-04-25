@@ -66,7 +66,7 @@ public class TimeMachineScript : MonoBehaviour
         if (GameManager.Instance == null) return;
         Debug.Log("Travel button is pressed");
         // Check distance
-        Transform player = LocalPlayerHolder.LocalCamera;
+        Transform player = LocalPlayerHolder.GetLocalCamera();
 
         if (player != null)
         {

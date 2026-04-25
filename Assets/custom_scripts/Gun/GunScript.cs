@@ -58,9 +58,9 @@ public class GunScript : MonoBehaviour
         myCollider.enabled = false;
 
     // Directly grab the camera assigned to the local user
-        if (LocalPlayerHolder.LocalCamera != null)
+        if (LocalPlayerHolder.GetLocalCamera() != null)
         {
-            main_camera = LocalPlayerHolder.LocalCamera;
+            main_camera = LocalPlayerHolder.GetLocalCamera();
             gun_equip = true;
             Debug.Log("Gun attached to local player camera.");
         }
