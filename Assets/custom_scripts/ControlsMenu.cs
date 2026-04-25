@@ -33,7 +33,7 @@ public class ControlsMenu : NetworkBehaviour
         }
 
         // Player spawn in, so find the control menu associated with this player 
-        playerCamera = transform.parent.GetComponentInChildren<Camera>().transform;
+        playerCamera = transform.root.GetComponentInChildren<Camera>().transform;
         if (playerCamera == null)
         {
             Debug.LogError("Control menu cannot find player camera!");

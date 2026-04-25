@@ -3,28 +3,80 @@ using UnityEngine;
 
 public class LocalPlayerHolder : NetworkBehaviour
 {
-    public static Transform LocalCamera;
+    // public static Transform LocalCamera;
+
+    //[SerializeField] private GameObject localOnlyObjects; // same ref as NetworkPlayerSetup
+
+    // public override void Spawned()
+    // {
+    //     if (!Object.HasInputAuthority) return;
+
+    //     // Activate the rig first so camera is findable
+    //     if (localOnlyObjects != null)
+    //         localOnlyObjects.SetActive(true);
+
+    //     AssignCamera();
+    // }
+
+    // private void AssignCamera()
+    // {
+    //     // Search including inactive just in case
+    //     Camera cam = GetComponentInChildren<Camera>(true);
+    //     if (cam != null)
+    //     {
+    //         LocalCamera = cam.transform;
+    //         Debug.Log("[LocalPlayerHolder] Camera assigned: " + cam.name);
+    //         return;
+    //     }
+
+    //     Debug.LogWarning("[LocalPlayerHolder] Camera not found under player: " + gameObject.name);
+    // }
+
+    // public override void Render()
+    // {
+    //     // Keep as a fallback only
+    //     if (LocalCamera != null) return;
+    //     if (Object == null || !Object.HasInputAuthority) return;
+    //     AssignCamera();
+    // }
+
+    // public override void Despawned(NetworkRunner runner, bool hasState)
+    // {
+    //     if (Object.HasInputAuthority)
+    //         LocalCamera = null;
+    // }
     
-    // Render runs every frame. We'll use it to "catch" the camera 
-    // the moment the player exists.
+    
+    public static Transform LocalCamera;
+
     public override void Render()
     {
-        // If we already found it, stop looking
         if (LocalCamera != null) return;
+        if (Object == null || !Object.HasInputAuthority) return;
 
-        // If this specific object is the one YOU control
-        if (Object != null && Object.HasInputAuthority)
+        // Search including inactive objects
+        Camera cam = GetComponentInChildren<Camera>(true); // true = include inactive
+        if (cam != null)
         {
-            Camera cam = GetComponentInChildren<Camera>();
-            if (cam != null)
+            LocalCamera = cam.transform;
+            Debug.Log("Local VR Camera found: " + cam.gameObject.name);
+            return;
+        }
+
+        // Fallback: search ALL cameras in scene
+        Camera[] allCams = FindObjectsByType<Camera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var c in allCams)
+        {
+            // Make sure it belongs to this player object
+            if (c.transform.IsChildOf(transform))
             {
-                LocalCamera = cam.transform;
-                Debug.Log("Success: Local VR Camera caught in Render loop!");
-            }else
-            {
-                Debug.LogWarning("<color=yellow>HOLDER:</color> I have authority, but I can't find a Camera child!");
+                LocalCamera = c.transform;
+                Debug.Log("Fallback camera found: " + c.gameObject.name);
+                return;
             }
         }
+
+        Debug.LogWarning("Still can't find camera under: " + gameObject.name);
     }
     public static Transform GetLocalCamera()
     {
@@ -41,6 +93,15 @@ public class LocalPlayerHolder : NetworkBehaviour
             }
         }
         return LocalCamera;
+    }
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        // Clean up so a future respawn starts fresh
+        if (Object.HasInputAuthority)
+        {
+            LocalCamera = null;
+        }
     }
 
 }

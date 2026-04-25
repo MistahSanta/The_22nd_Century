@@ -5,71 +5,76 @@ using Fusion;
 /// Raycasts from camera center to detect interactable objects.
 /// Only triggers when within the object's maxInteractDistance.
 /// </summary>
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : NetworkBehaviour
 {
     public float rayRange = 50f;
-    Transform mainCam = null;
+    Camera mainCam = null;
     InteractableObjectScript currentTarget;
     public LayerMask interactableLayer;
 
-
-void Update()
-{
-    //if (!HasInputAuthority) return;
-
-    // Find camera ONCE, scoped to THIS player's hierarchy
-    if (mainCam == null)
+    public override void Spawned()
     {
-        // Search only within this player's own GameObject hierarchy
-        Transform xrRig = transform.Find("XRCardboardRig");
-        Transform heightOffset = xrRig?.Find("HeightOffset");
-        mainCam = heightOffset?.Find("Main Camera");
-
-        if (mainCam == null)
-        {
-            Debug.LogWarning("[PI] No camera found in player hierarchy");
-            return;
-        }
+        if (!Object.HasInputAuthority) return; // Don't set up camera for remote players
         
-        Debug.Log($"[PI] Found camera: {mainCam.gameObject.name} under {gameObject.name}");
+        // Use the already-found local camera instead of searching hierarchy
+        mainCam = LocalPlayerHolder.GetLocalCamera()?.GetComponent<Camera>();
+        
+        if (mainCam == null)
+            Debug.LogWarning("[PlayerInterction] No camera found via LocalPlayerHolder");
     }
 
-    Ray ray = new Ray(mainCam.position, mainCam.forward);
-    RaycastHit hit;
-    Debug.DrawRay(ray.origin, ray.direction * rayRange, Color.yellow); // For debugging
-    LayerMask hardcodedMask = LayerMask.GetMask("Interactable");
 
-    // Photon Fusion need to use gameObject current physic scene, not physics scene!!
-    PhysicsScene physicsScene = gameObject.scene.GetPhysicsScene();
-
-    if (physicsScene.Raycast(ray.origin, ray.direction, out hit, rayRange, hardcodedMask, QueryTriggerInteraction.Collide))
+    void Update()
     {
-        // Find the script on the gun/object
-        InteractableObjectScript io = hit.collider.GetComponent<InteractableObjectScript>();
+        //if (!HasInputAuthority) return;
 
-        if (io != null)
+        // Find camera ONCE, scoped to THIS player's hierarchy
+        if (mainCam == null)
         {
-            // If we just started looking at this specific object
-            if (currentTarget != io)
-            {
-                // Tell the old object we are gone
-                if (currentTarget != null) currentTarget.OnPointerExit();
+            // Search only within this player's own GameObject hierarchy
+            var camTransform = LocalPlayerHolder.GetLocalCamera();
+            if (camTransform == null) return; // Not ready yet, try next frame
+            mainCam = camTransform.GetComponent<Camera>();
+            
+            Debug.Log($"[PI] Found camera: {mainCam.gameObject.name} under {gameObject.name}");
+        }
 
-                // Tell the new object we are here
-                currentTarget = io;
-                currentTarget.PointerEnter(); // This sets io.isPlayerLooking = true
+        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * rayRange, Color.yellow); // For debugging
+        LayerMask hardcodedMask = LayerMask.GetMask("Interactable");
+
+        // Photon Fusion need to use gameObject current physic scene, not physics scene!!
+        PhysicsScene physicsScene = gameObject.scene.GetPhysicsScene();
+
+        if (physicsScene.Raycast(ray.origin, ray.direction, out hit, rayRange, hardcodedMask, QueryTriggerInteraction.Collide))
+        {
+            // Find the script on the gun/object
+            InteractableObjectScript io = hit.collider.GetComponent<InteractableObjectScript>();
+
+            if (io != null)
+            {
+                // If we just started looking at this specific object
+                if (currentTarget != io)
+                {
+                    // Tell the old object we are gone
+                    if (currentTarget != null) currentTarget.OnPointerExit();
+
+                    // Tell the new object we are here
+                    currentTarget = io;
+                    currentTarget.PointerEnter(); // This sets io.isPlayerLooking = true
+                }
+            }
+        }
+        else
+        {
+            // If the ray hits nothing, clear the current target
+            if (currentTarget != null)
+            {
+                currentTarget.OnPointerExit(); // This sets currentTarget.isPlayerLooking = false
+                currentTarget = null;
             }
         }
     }
-    else
-    {
-        // If the ray hits nothing, clear the current target
-        if (currentTarget != null)
-        {
-            currentTarget.OnPointerExit(); // This sets currentTarget.isPlayerLooking = false
-            currentTarget = null;
-        }
-    }
-}
 
 }
