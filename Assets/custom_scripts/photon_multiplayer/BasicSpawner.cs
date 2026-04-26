@@ -7,6 +7,8 @@ using Fusion.Sockets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using Photon.Voice.Unity;
+using System.Threading.Tasks;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -30,7 +32,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            
             Vector3 spawnPosition = new Vector3(-16, 4, -12);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             
@@ -57,7 +58,9 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 }
             }
 
+
         }
+
 
         if (player == runner.LocalPlayer)
         {
@@ -130,7 +133,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     async void StartGame(GameMode mode)
     {
         // Create the Fusion runner and let it know that we will be providing user input
-        _runner = gameObject.AddComponent<NetworkRunner>();
+        _runner = gameObject.GetComponent<NetworkRunner>(); //gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
         
 

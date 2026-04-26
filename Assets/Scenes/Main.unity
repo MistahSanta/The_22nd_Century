@@ -239,6 +239,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e0bdb159fc04884b14744d40974efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+--- !u!1 &12866360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 12866362}
+  - component: {fileID: 12866361}
+  m_Layer: 0
+  m_Name: VoiceLogger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &12866361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12866360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86f533fd9917dd4da8601e9eb542c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.VoiceLogger
+  LogLevel: 2
+--- !u!4 &12866362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12866360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &15449815
 GameObject:
   m_ObjectHideFlags: 0
@@ -10122,7 +10167,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 589027651}
     m_Modifications:
     - target: {fileID: 2040672677219441416, guid: a446d08b479f3384887baf06c00d2764, type: 3}
       propertyPath: m_Name
@@ -11306,9 +11351,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dab5b7dbb194882896fbab1fd3663f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunScript
+  shootSound: {fileID: 8300000, guid: b2d159f7e00d44d9bbc2d50a0c4fef59, type: 3}
   bullet: {fileID: 1619777941}
   gun_barrel: {fileID: 39750232}
   muzzle_flash: {fileID: 1138452042}
+  shootVolume: 1
 --- !u!114 &553537897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12090,6 +12137,8 @@ Transform:
   - {fileID: 109746867}
   - {fileID: 471598797}
   - {fileID: 1976170570}
+  - {fileID: 1349128422}
+  - {fileID: 480333284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &592636455
@@ -16752,6 +16801,10 @@ GameObject:
   m_Component:
   - component: {fileID: 861156678}
   - component: {fileID: 861156677}
+  - component: {fileID: 861156682}
+  - component: {fileID: 861156681}
+  - component: {fileID: 861156680}
+  - component: {fileID: 861156679}
   m_Layer: 0
   m_Name: PhotonNetworking
   m_TagString: Untagged
@@ -16789,6 +16842,114 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &861156679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861156676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.Recorder
+  voiceDetection: 0
+  voiceDetectionThreshold: 0.01
+  voiceDetectionDelayMs: 500
+  interestGroup: 0
+  useTargetPlayers: 0
+  targetPlayers: 
+  debugEchoMode: 0
+  reliableMode: 0
+  encrypt: 0
+  transmitEnabled: 1
+  samplingRate: 24000
+  frameDuration: 40000
+  bitrate: 30000
+  sourceType: 0
+  microphoneType: 0
+  audioClip: {fileID: 0}
+  loopAudioClip: 1
+  recordingEnabled: 1
+  audioSessionParameters:
+    Category: 4
+    Mode: 1
+    CategoryOptions: 0800000004000000
+  editorAudioSessionPreset: 1
+  androidMicrophoneSettings:
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
+  stopRecordingWhenPaused: 0
+  useOnAudioFilterRead: 0
+  useMicrophoneTypeFallback: 1
+  recordWhenJoined: 1
+--- !u!114 &861156680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861156676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8edbe7108d8a43ab838cf8b8d9453df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Unity::Fusion.RunnerEnableVisibility
+--- !u!114 &861156681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861156676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a38d73a8571ce438052dd31e09df5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice.Fusion::Photon.Voice.Fusion.FusionVoiceClient
+  DisconnectAfterKeepAlive: 0
+  KeepAliveInBackground: 60000
+  ApplyDontDestroyOnLoad: 1
+  runInBackground: 1
+  statsResetInterval: 1000
+  speakerPrefab: {fileID: 6237000346592520877, guid: 7e0c6c2695467eadd8f257c11eba6f79, type: 3}
+  primaryRecorder: {fileID: 861156679}
+  usePrimaryRecorder: 1
+  cppCompatibilityMode: 0
+  Settings:
+    AppIdRealtime: 
+    AppIdFusion: 
+    AppIdChat: 
+    AppIdVoice: 
+    AppVersion: 
+    UseNameServer: 1
+    FixedRegion: 
+    Server: 
+    Port: 0
+    ProxyServer: 
+    Protocol: 0
+    EnableProtocolFallback: 1
+    AuthMode: 0
+    EnableLobbyStatistics: 0
+    NetworkLogging: 1
+  ShowSettings: 1
+  AutoConnectAndJoin: 1
+  UseFusionAppSettings: 1
+  UseFusionAuthValues: 1
+--- !u!114 &861156682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861156676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1199893898, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkRunner
 --- !u!1001 &862208245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23235,7 +23396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2040672677219600168, guid: a446d08b479f3384887baf06c00d2764, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.872
+      value: -5.857
       objectReference: {fileID: 0}
     - target: {fileID: 2040672677219600168, guid: a446d08b479f3384887baf06c00d2764, type: 3}
       propertyPath: m_LocalRotation.w
@@ -27328,7 +27489,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 589027651}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalScale.x
@@ -27336,11 +27497,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0060000005
+      value: 0.006000001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0060000005
+      value: 0.006000001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36464,7 +36625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.548
+      value: -1.984
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7477120239034a8cb01e532fb18d6f7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44330,6 +44491,7 @@ MonoBehaviour:
   menuButton2: js13
   menuButton3: js8
   jumpButton: js3
+  voiceButton: js3
   switchButton: js2
   buttonB: js5
 --- !u!114 &2127443636
@@ -44902,6 +45064,63 @@ Transform:
   - {fileID: 1429476217}
   m_Father: {fileID: 867239930}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &9188716204863266474
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.1515
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.16822
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.62391
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479337290280704393, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3376026787254315138, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
+      propertyPath: m_Name
+      value: Speaker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1aca1674d19f77eeb71cd7275c222c4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -44912,8 +45131,6 @@ SceneRoots:
   - {fileID: 1061568454}
   - {fileID: 174398415}
   - {fileID: 589027651}
-  - {fileID: 1349128420}
-  - {fileID: 480333282}
   - {fileID: 184818798}
   - {fileID: 1519849868}
   - {fileID: 1808447853}
@@ -44923,3 +45140,5 @@ SceneRoots:
   - {fileID: 69304542}
   - {fileID: 1204749113}
   - {fileID: 1509585822}
+  - {fileID: 12866362}
+  - {fileID: 9188716204863266474}

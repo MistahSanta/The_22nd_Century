@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioClip shootSound;
     private bool gun_equip = false;
     private float equip_speed = 8f;
     private Transform main_camera;
@@ -10,7 +12,8 @@ public class GunScript : MonoBehaviour
     public ParticleSystem muzzle_flash;
     private Animator gun_animator;
     Light gunLight;
-
+    [Range(0f, 1f)] public float shootVolume = 1f;
+    private AudioSource _audioSource;
     void Start()
     {
         gun_animator = GetComponentInChildren<Animator>();
@@ -39,6 +42,11 @@ public class GunScript : MonoBehaviour
         gunLight.range = 12f;
         gunLight.intensity = 4f;
 
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.spatialBlend = 1f;  // 3D audio so other players hear it positionally
+        _audioSource.rolloffMode = AudioRolloffMode.Linear;
+        _audioSource.maxDistance = 30f;
+        _audioSource.playOnAwake = false;
 
         // Also add self-detection (backup if raycast fails)
         // if (GetComponent<GunProximityDetector>() == null)
@@ -89,6 +97,9 @@ public class GunScript : MonoBehaviour
             Debug.LogWarning("Gun: bullet not assigned!");
             return;
         }
+
+        if (shootSound != null && _audioSource != null)
+            _audioSource.PlayOneShot(shootSound, shootVolume);
 
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
             Quaternion.Euler(90,0,0));

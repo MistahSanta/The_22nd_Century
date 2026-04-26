@@ -18,10 +18,13 @@ public class ControllerMapping : MonoBehaviour
     [Header("Menu (Menu Button)")]
     public string menuButton1 = "js9";   // menu toggle 1
     public string menuButton2 = "js13";  // menu toggle 2
-    public string menuButton3 = "js8";
+    public string menuButton3 = "js11";
 
-    [Header("Jump (Y Button)")]
-    public string jumpButton = "js3";    // controller Y
+    [Header("jump button")]
+    public string jumpButton = "null";  // remove?? 
+    
+    [Header("Voice Chat")]
+    public string voiceButton = "js3";    // controller Y
 
     [Header("Switch Tool (X Button)")]
     public string switchButton = "js2";      // controller X
@@ -59,6 +62,11 @@ public class ControllerMapping : MonoBehaviour
     public bool GetJumpDown()
     {
         return SafeGetButtonDown(jumpButton) || Input.GetKeyDown(KeyCode.Space);
+    }
+
+    public bool voiceButtonDown()
+    {
+        return SafeGetButtonDown(voiceButton) || Input.GetKeyDown(KeyCode.Y);
     }
 
     public bool GetSwitchToolDown()
