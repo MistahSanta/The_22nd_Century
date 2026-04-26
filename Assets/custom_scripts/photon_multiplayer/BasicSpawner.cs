@@ -12,6 +12,9 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     private NetworkRunner _runner;
     
+    // [Header("Per-Player Tools")]
+    // public NetworkPrefabRef garbagePickerPrefab;
+    // public NetworkPrefabRef shovelPrefab;
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private Canvas _menuCanvas;
@@ -19,6 +22,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private Text _joinLabel;
     [SerializeField] private Camera _menuCamera; // Assign a simple camera in Inspector
     
+    // Dictionary to track which tools belong to which player
+    Dictionary<PlayerRef, List<NetworkObject>> _playerTools = new();
 
     
     void INetworkRunnerCallbacks.OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -26,7 +31,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             
-            Vector3 spawnPosition = new Vector3(-16, 1, -12);
+            Vector3 spawnPosition = new Vector3(-16, 4, -12);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             
             
@@ -34,8 +39,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
 
+            // Spawn tools for this player
+            //var tools = new List<NetworkObject>();
 
-            
+            // var picker = runner.Spawn(garbagePickerPrefab, spawnPosition, Quaternion.identity, player);
+            // var shovel = runner.Spawn(shovelPrefab, spawnPosition, Quaternion.identity, player);
+
+            // tools.Add(picker);
+            // tools.Add(shovel);
+            //_playerTools[player] = tools;
+                    
             if (_spawnedCharacters.Count == 1)
             {  // Start nav mesh on that player now that a player exist now
                 foreach (var zombie in FindObjectsOfType<NavMeshAgent>())
@@ -64,6 +77,13 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
         }
+
+        // if (_playerTools.TryGetValue(player, out var tools))
+        // {
+        //     foreach (var tool in tools)
+        //         if (tool != null) runner.Despawn(tool);
+        //     _playerTools.Remove(player);
+        // }
     }
     void INetworkRunnerCallbacks.OnInput(NetworkRunner runner, NetworkInput input)
     {

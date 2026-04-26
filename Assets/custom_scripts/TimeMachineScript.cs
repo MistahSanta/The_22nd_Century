@@ -13,7 +13,7 @@ public class TimeMachineScript : MonoBehaviour
         BoxCollider col = GetComponent<BoxCollider>();
         if (col == null) col = gameObject.AddComponent<BoxCollider>();
         //col.size = new Vector3(60f, 60f, 60f);
-        col.size = new Vector3(100f, 100f,100f);
+        col.size = new Vector3(60f, 60f, 60f);
         col.center = new Vector3(0, 30f, 0);
         col.isTrigger = true;
 
@@ -63,7 +63,9 @@ public class TimeMachineScript : MonoBehaviour
 
     public void ActivateTravel()
     {
-        if (GameManager.Instance == null) return;
+
+        if (GameManager.Instance == null || !GameManager.Instance.IsReady) return;
+        
         Debug.Log("Travel button is pressed");
         // Check distance
         Transform player = LocalPlayerHolder.GetLocalCamera();

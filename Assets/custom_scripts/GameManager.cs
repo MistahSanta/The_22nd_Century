@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
@@ -18,44 +19,71 @@ public class GameManager : MonoBehaviour
     public Material skyboxGettingCleaner;
     public Material skyboxVeryClean;
     public Material skyboxPresent;
+    
 
     [Header("Timer")]
     public float presentWorldTime = 60f;
-    float timer = 0f;
-    bool timerRunning = false;
-    public bool TimerRunning => timerRunning;
-    public float TimeRemaining => timer;
 
-    [Header("Shared Objects (hidden in Present)")]
+    [Header("Shared Objects")]
     public GameObject gunObject;
     public GameObject timeMachineObject;
 
     [Header("Cleanliness")]
-    public int totalTrashInPresent = 5; // Only need 5 out of 45 to reach 100%
+    public int totalTrashInPresent = 5;
     public int totalTreesInPresent = 3;
-    int trashCollected = 0;
-    int treesPlanted = 0;
+    bool isSpawned = false;
 
+    public bool IsReady => isSpawned && Runner != null;
+
+    // ─── Networked State ───────────────────────────────────────────────────────
+    // WorldState: 0=future-apocalypse, 1=future-cleaner, 2=future-gettingcleaner,
+    //             3=future-veryclean,  4=present
+    [Networked, OnChangedRender(nameof(OnWorldStateChanged))]
+    public int NetworkedWorldState { get; set; } = 0;
+
+    [Networked, OnChangedRender(nameof(OnCleanlinessChanged))]
+    public int NetworkedTrashCollected { get; set; } = 0;
+
+    [Networked, OnChangedRender(nameof(OnCleanlinessChanged))]
+    public int NetworkedTreesPlanted { get; set; } = 0;
+
+    [Networked, OnChangedRender(nameof(OnTimerChanged))]
+    public float NetworkedTimer { get; set; } = 0f;
+
+    [Networked, OnChangedRender(nameof(OnTimerChanged))]
+    public bool NetworkedTimerRunning { get; set; } = false;
+
+    [Networked, OnChangedRender(nameof(OnGameOverChanged))]
+    public bool NetworkedGameOver { get; set; } = false;
+
+    [Networked, OnChangedRender(nameof(OnTimeMachineMoved))]
+    public Vector3 NetworkedTimeMachinePos { get; set; }
+
+    // ─── Local State ──────────────────────────────────────────────────────────
     bool isInPresent = false;
-    bool isGameOver = false;
     bool hasGarbagePicker = false;
     bool hasShovel = false;
     GameObject gameOverPanel;
 
+    // Public read-only accessors (read from networked state)
+    public bool IsInPresent => isInPresent;
+    public bool IsGameOver => NetworkedGameOver;
+    public bool TimerRunning => NetworkedTimerRunning;
+    public float TimeRemaining => NetworkedTimer;
     public bool HasGarbagePicker => hasGarbagePicker;
-    public void PickUpGarbagePicker() { hasGarbagePicker = true; Debug.Log("Garbage picker equipped!"); }
-
     public bool HasShovel => hasShovel;
-    public void PickUpShovel() { hasShovel = true; Debug.Log("Shovel equipped!"); }
+    public int TrashCollected => NetworkedTrashCollected;
+    public int TreesPlanted => NetworkedTreesPlanted;
+    public float CleanlinessPercent =>
+        (totalTrashInPresent + totalTreesInPresent) > 0
+            ? (float)(NetworkedTrashCollected + NetworkedTreesPlanted)
+              / (totalTrashInPresent + totalTreesInPresent) * 100f
+            : 0f;
 
     public enum EquippedTool { None, GarbagePicker, Shovel }
     public EquippedTool CurrentTool { get; private set; } = EquippedTool.None;
 
-    public bool IsInPresent => isInPresent;
-    public bool IsGameOver => isGameOver;
-    public float CleanlinessPercent => (totalTrashInPresent + totalTreesInPresent) > 0 ? (float)(trashCollected + treesPlanted) / (totalTrashInPresent + totalTreesInPresent) * 100f : 0f;
-    public int TrashCollected => trashCollected;
-    public int TreesPlanted => treesPlanted;
+    // ─── Unity Lifecycle ──────────────────────────────────────────────────────
 
     void Awake()
     {
@@ -63,37 +91,54 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
+    public override void Spawned()
     {
-        // Auto-find gun and TM if not assigned
+        isSpawned = true;
+
         if (gunObject == null) gunObject = GameObject.Find("Gun");
         if (timeMachineObject == null) timeMachineObject = GameObject.Find("TimeMachine");
 
-        ShowFutureWorld();
         CreateGameOverUI();
+
+        // New clients joining mid-session: apply current networked state locally
+        ApplyWorldState(NetworkedWorldState);
+
+        if (NetworkedGameOver && gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        // Only the State Authority (host) ticks the timer
+        if (!isSpawned) return;
+        if (!HasStateAuthority) return;
+
+        if (NetworkedTimerRunning && isInPresent)
+        {
+            NetworkedTimer -= Runner.DeltaTime;
+            if (NetworkedTimer <= 0f)
+            {
+                NetworkedTimer = 0f;
+                NetworkedTimerRunning = false;
+                Debug.Log("Time's up! Return to the Time Machine!");
+            }
+        }
     }
 
     void Update()
     {
-        if (timerRunning && isInPresent)
-        {
-            timer -= Time.deltaTime;
-            if (timer <= 0f)
-            {
-                timer = 0f;
-                timerRunning = false;
-                // disable interactions
-                Debug.Log("Time's up! Return to the Time Machine!");
-            }
-        }
+        if (!isSpawned) return; 
 
-        if (isInPresent && ControllerMapping.Instance != null && ControllerMapping.Instance.GetSwitchToolDown())
+        // Tool switching is purely local
+        if (isInPresent && ControllerMapping.Instance != null
+            && ControllerMapping.Instance.GetSwitchToolDown())
         {
             SwitchTool();
             Debug.Log($"Switched to: {CurrentTool}");
         }
 
-        if (isGameOver)
+        // Restart input (local)
+        if (NetworkedGameOver)
         {
             bool restart = ControllerMapping.Instance != null
                 ? ControllerMapping.Instance.GetInteractDown()
@@ -102,139 +147,187 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ─── Public Actions (called locally, authority changes networked state) ───
+
     public void CollectTrash()
     {
-        trashCollected++;
-        Debug.Log($"Trash collected: {trashCollected}/{totalTrashInPresent} ({CleanlinessPercent:F0}%)");
-
-        // If all trash collected, enable TimeMachine glow
-        if (CleanlinessPercent >= 100f)
-            Debug.Log("All trash collected! Time Machine is ready!");
+        if (!IsReady) return;
+        if (!HasStateAuthority) { RPC_CollectTrash(); return; }
+        NetworkedTrashCollected++;
+        Debug.Log($"Trash: {NetworkedTrashCollected}/{totalTrashInPresent} ({CleanlinessPercent:F0}%)");
     }
 
     public void PlantTree()
     {
-        treesPlanted++;
-        Debug.Log($"Trees planted: {treesPlanted}");
+        if (!IsReady) return;
+        if (!HasStateAuthority) { RPC_PlantTree(); return; }
+        NetworkedTreesPlanted++;
+        Debug.Log($"Trees planted: {NetworkedTreesPlanted}");
     }
 
     public void ActivateTimeMachine()
     {
-        if (isGameOver) return;
+        if (!IsReady) return;
+        if (NetworkedGameOver) return;
+        if (!HasStateAuthority) { RPC_ActivateTimeMachine(); return; }
 
         if (isInPresent)
-        {
-            ShowFutureWorld();
-        }
+            SetFutureWorldState();
         else
-        {
-            ShowPresentWorld();
-        }
+            SetPresentWorldState();
     }
 
     public void GameOver()
     {
-        if (isGameOver) return;
-        isGameOver = true;
+        if (NetworkedGameOver) return;
+        if (!HasStateAuthority) { RPC_TriggerGameOver(); return; }
+        NetworkedGameOver = true;
         HapticFeedback.VibrateHit();
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
     }
 
-    void RestartGame()
+    public void PickUpGarbagePicker() { hasGarbagePicker = true; Debug.Log("Garbage picker equipped!"); }
+    public void PickUpShovel()        { hasShovel = true;        Debug.Log("Shovel equipped!");         }
+
+    public void EquipGarbagePicker() { CurrentTool = EquippedTool.GarbagePicker; }
+    public void EquipShovel()        { CurrentTool = EquippedTool.Shovel; }
+    public void SwitchTool()
     {
-        isGameOver = false;
-        trashCollected = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if      (CurrentTool == EquippedTool.GarbagePicker) CurrentTool = EquippedTool.Shovel;
+        else if (CurrentTool == EquippedTool.Shovel)        CurrentTool = EquippedTool.GarbagePicker;
     }
 
-    void ShowPresentWorld()
+    // ─── RPCs (non-authority clients ask the host to do things) ──────────────
+
+    [Rpc(RpcSources.Proxies, RpcTargets.StateAuthority)]
+    void RPC_CollectTrash()         => NetworkedTrashCollected++;
+
+    [Rpc(RpcSources.Proxies, RpcTargets.StateAuthority)]
+    void RPC_PlantTree()            => NetworkedTreesPlanted++;
+
+    [Rpc(RpcSources.Proxies, RpcTargets.StateAuthority)]
+    void RPC_ActivateTimeMachine()  => ActivateTimeMachine();
+
+    [Rpc(RpcSources.Proxies, RpcTargets.StateAuthority)]
+    void RPC_TriggerGameOver()      => GameOver();
+
+    // ─── State Authority: Set Networked State ─────────────────────────────────
+
+    void SetPresentWorldState()
     {
-        isInPresent = true;
+        NetworkedWorldState    = 4;
+        NetworkedTimer         = presentWorldTime;
+        NetworkedTimerRunning  = true;
+    }
 
-        timer = presentWorldTime;
-        timerRunning = true;
+    void SetFutureWorldState()
+    {
+        float pct = CleanlinessPercent;
+        if      (pct >= 100f) NetworkedWorldState = 3;
+        else if (pct >= 60f)  NetworkedWorldState = 2;
+        else if (pct >= 30f)  NetworkedWorldState = 1;
+        else                  NetworkedWorldState = 0;
 
-        SetAllWorldsInactive();
-        if (presentWorld != null)
+        NetworkedTimerRunning = false;
+
+        // Pick a random safe position and sync it
+        Vector3[] safePositions =
         {
-            presentWorld.SetActive(true);
-            Debug.Log($"Present world activated. Children: {presentWorld.transform.childCount}");
-            foreach (Transform child in presentWorld.transform)
-                Debug.Log($"  Child: {child.name} active={child.gameObject.activeSelf}");
+            new Vector3(-20f, 0f, 25f), new Vector3(2f,   0f, 15f),
+            new Vector3(4f,   0f,-20f), new Vector3(-10f, 0f,-20f),
+            new Vector3(3f,   0f, -3f), new Vector3(23f,  0f,  8f),
+            new Vector3(-20f, 0f,  3f),
+        };
+        NetworkedTimeMachinePos = safePositions[Random.Range(0, safePositions.Length)];
+    }
+
+    // ─── OnChangedRender Callbacks (fire on ALL clients when state changes) ───
+
+    void OnWorldStateChanged()  => ApplyWorldState(NetworkedWorldState);
+    void OnCleanlinessChanged() { /* UI update hook - add HUD refresh here */ }
+    void OnTimerChanged()       { /* UI update hook - timer display refresh here */ }
+    void OnTimeMachineMoved()
+    {
+        if (timeMachineObject != null)
+            timeMachineObject.transform.position = NetworkedTimeMachinePos;
+    }
+    void OnGameOverChanged()
+    {
+        if (NetworkedGameOver)
+        {
+            HapticFeedback.VibrateHit();
+            if (gameOverPanel != null) gameOverPanel.SetActive(true);
         }
-        if (skyboxPresent != null) RenderSettings.skybox = skyboxPresent;
+    }
 
-        // Hide gun in present
-        if (gunObject != null) gunObject.SetActive(false);
+    // ─── Local Visual Application (called on every client) ───────────────────
 
-        // Hide zombies in present world
-        if (presentWorld != null)
+    void ApplyWorldState(int state)
+    {
+        SetAllWorldsInactive();
+
+        if (state == 4)
         {
-            Transform zombies = presentWorld.transform.Find("Zombies");
+            isInPresent = true;
+            if (presentWorld != null)  presentWorld.SetActive(true);
+            if (skyboxPresent != null) RenderSettings.skybox = skyboxPresent;
+            if (gunObject != null)     gunObject.SetActive(false);
+
+            Transform zombies = presentWorld?.transform.Find("Zombies");
             if (zombies != null) zombies.gameObject.SetActive(false);
         }
-    }
-
-    void ShowFutureWorld()
-    {
-        isInPresent = false;
-        SetAllWorldsInactive();
-
-        // Show gun in future
-        if (gunObject != null) gunObject.SetActive(true);
-
-        float pct = CleanlinessPercent;
-
-        if (pct >= 100f && futureVeryClean != null)
+        else
         {
-            futureVeryClean.SetActive(true);
-            if (skyboxVeryClean != null) RenderSettings.skybox = skyboxVeryClean;
-        }
-        else if (pct >= 60f && futureGettingCleaner != null)
-        {
-            futureGettingCleaner.SetActive(true);
-            if (skyboxGettingCleaner != null) RenderSettings.skybox = skyboxGettingCleaner;
-        }
-        else if (pct >= 30f && futureCleaner != null)
-        {
-            futureCleaner.SetActive(true);
-            if (skyboxCleaner != null) RenderSettings.skybox = skyboxCleaner;
-        }
-        else if (futureApocalypse != null)
-        {
-            futureApocalypse.SetActive(true);
-            if (skyboxApocalypse != null) RenderSettings.skybox = skyboxApocalypse;
-        }
+            isInPresent = false;
+            if (gunObject != null) gunObject.SetActive(true);
 
-        Vector3[] safePositions = new Vector3[]
-        {
-            new Vector3(-20f, 0f, 25f),
-            new Vector3(2f, 0f, 15f),
-            new Vector3(4f, 0f, -20f),
-            new Vector3(-10f, 0f, -20f),
-            new Vector3(3f, 0f, -3f),
-            new Vector3(23f, 0f, 8f),
-            new Vector3(-20f, 0f, 3f),
-        };
+            switch (state)
+            {
+                case 0:
+                    if (futureApocalypse != null)    futureApocalypse.SetActive(true);
+                    if (skyboxApocalypse != null)    RenderSettings.skybox = skyboxApocalypse;
+                    break;
+                case 1:
+                    if (futureCleaner != null)       futureCleaner.SetActive(true);
+                    if (skyboxCleaner != null)       RenderSettings.skybox = skyboxCleaner;
+                    break;
+                case 2:
+                    if (futureGettingCleaner != null) futureGettingCleaner.SetActive(true);
+                    if (skyboxGettingCleaner != null) RenderSettings.skybox = skyboxGettingCleaner;
+                    break;
+                case 3:
+                    if (futureVeryClean != null)     futureVeryClean.SetActive(true);
+                    if (skyboxVeryClean != null)     RenderSettings.skybox = skyboxVeryClean;
+                    break;
+            }
 
-        if (timeMachineObject != null)
-        {
-            int randomIndex = Random.Range(0, safePositions.Length);
-            timeMachineObject.transform.position = safePositions[randomIndex];
-
-            var tm = timeMachineObject.GetComponent<TimeMachineScript>();
-            if (tm != null) tm.ResetGlow();
+            // Apply synced time machine position & reset glow
+            if (timeMachineObject != null)
+            {
+                timeMachineObject.transform.position = NetworkedTimeMachinePos;
+                var tm = timeMachineObject.GetComponent<TimeMachineScript>();
+                if (tm != null) tm.ResetGlow();
+            }
         }
     }
 
     void SetAllWorldsInactive()
     {
-        if (futureApocalypse != null) futureApocalypse.SetActive(false);
-        if (futureCleaner != null) futureCleaner.SetActive(false);
+        if (futureApocalypse != null)    futureApocalypse.SetActive(false);
+        if (futureCleaner != null)       futureCleaner.SetActive(false);
         if (futureGettingCleaner != null) futureGettingCleaner.SetActive(false);
-        if (futureVeryClean != null) futureVeryClean.SetActive(false);
-        if (presentWorld != null) presentWorld.SetActive(false);
+        if (futureVeryClean != null)     futureVeryClean.SetActive(false);
+        if (presentWorld != null)        presentWorld.SetActive(false);
     }
+
+    void RestartGame()
+    {
+        if (HasStateAuthority)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    // ─── Game Over UI (local, each client has their own) ─────────────────────
 
     void CreateGameOverUI()
     {
@@ -266,23 +359,5 @@ public class GameManager : MonoBehaviour
         textRect.sizeDelta = Vector2.zero;
 
         gameOverPanel.SetActive(false);
-    }
-
-    public void EquipGarbagePicker()
-    {
-        CurrentTool = EquippedTool.GarbagePicker;
-    }
-
-    public void EquipShovel()
-    {
-        CurrentTool = EquippedTool.Shovel;
-    }
-
-    public void SwitchTool()
-    {
-        if (CurrentTool == EquippedTool.GarbagePicker)
-            CurrentTool = EquippedTool.Shovel;
-        else if (CurrentTool == EquippedTool.Shovel)
-            CurrentTool = EquippedTool.GarbagePicker;
     }
 }

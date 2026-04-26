@@ -41,7 +41,7 @@ public class InteractableObjectScript : MonoBehaviour
         var tm = GetComponent<TimeMachineScript>();
         if (tm != null && GameManager.Instance != null)
         {
-            if (GameManager.Instance.IsInPresent)
+            if (GameManager.Instance.IsInPresent && GameManager.Instance.IsReady)
             {
                 if (!GameManager.Instance.TimerRunning)
                     display = "Travel back to Future";
@@ -53,10 +53,10 @@ public class InteractableObjectScript : MonoBehaviour
         }
 
         if (GetComponent<TrashPickup>() != null)
-            return display;
+            return GetComponent<TrashPickup>().GetPromptText();
 
         if (GetComponent<TreePlanting>() != null)
-            return display;
+            return GetComponent<TreePlanting>().GetPromptText();
 
         return display + "\n[Press A]";
     }
