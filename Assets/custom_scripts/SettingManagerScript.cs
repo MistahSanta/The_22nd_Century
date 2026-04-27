@@ -65,6 +65,7 @@ public class SettingManagerScript : MonoBehaviour
             menu_is_open = true;
             char_move.enabled = false;
             setting_menu_panel.enabled = true;
+            Debug.Log("Menu button is pressed. Openning");
         }
 
         if (menu_is_open == false ) return;
