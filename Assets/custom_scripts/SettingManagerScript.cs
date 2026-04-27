@@ -5,7 +5,7 @@ public class SettingManagerScript : MonoBehaviour
 {
     public Button[] buttons; // Button order in the setting menu. 0 = top menu and stuff below = greater number
     private int current_button_index = 0;
-    private float selection_delay = 0.1f; 
+    private float selection_delay = 0.19f; 
     private float next_select_time = 0f;
     private CharacterMovement char_move;
     private Canvas setting_menu_panel;

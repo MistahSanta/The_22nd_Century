@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Controller button mappings based on actual hardware testing.
-/// X=js2, Y=js3, A=js10, B=js5, Top=H(js0), Menu=js9/js13
+/// X=js2, Y=js3, A=js10, B=js5, Top=H(js0), Menu=js9/js13/js11
 /// </summary>
 public class ControllerMapping : MonoBehaviour
 {
@@ -17,14 +17,11 @@ public class ControllerMapping : MonoBehaviour
 
     [Header("Menu (Menu Button)")]
     public string menuButton1 = "js9";   // menu toggle 1
-    public string menuButton2 = "js13";  // menu toggle 2
     public string menuButton3 = "js11";
+    public string menuButton2 = "js13";  // menu toggle 2
 
     [Header("jump button")]
-    public string jumpButton = "null";  // remove?? 
-    
-    [Header("Voice Chat")]
-    public string voiceButton = "js3";    // controller Y
+    public string jumpButton = "js3";  
 
     [Header("Switch Tool (X Button)")]
     public string switchButton = "js2";      // controller X
@@ -62,11 +59,6 @@ public class ControllerMapping : MonoBehaviour
     public bool GetJumpDown()
     {
         return SafeGetButtonDown(jumpButton) || Input.GetKeyDown(KeyCode.Space);
-    }
-
-    public bool voiceButtonDown()
-    {
-        return SafeGetButtonDown(voiceButton) || Input.GetKeyDown(KeyCode.Y);
     }
 
     public bool GetSwitchToolDown()
