@@ -1,4 +1,4 @@
-Library: /Users/wenyili/Desktop/CS6334/Unity/Projects/The_22nd_Century/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
+Library: /home/jon/Documents/Unity/Team13_Project/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
 --platform=Android
 --minimum-os-version=
 --backend=burst-llvm-19
@@ -9,10 +9,10 @@ Library: /Users/wenyili/Desktop/CS6334/Unity/Projects/The_22nd_Century/Temp/Burs
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp/burst.link.xml
---temp-folder=/Users/wenyili/Desktop/CS6334/Unity/Projects/The_22nd_Century/Temp/Burst
---key-folder=/Applications/Unity/Hub/Editor/6000.3.4f1/PlaybackEngines/AndroidPlayer
---decode-folder=/Users/wenyili/Desktop/CS6334/Unity/Projects/The_22nd_Century/Library/Burst
---output=/Users/wenyili/Desktop/CS6334/Unity/Projects/The_22nd_Century/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
+--temp-folder=/home/jon/Documents/Unity/Team13_Project/Temp/Burst
+--key-folder=/home/jon/Unity/Hub/Editor/6000.3.4f1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=/home/jon/Documents/Unity/Team13_Project/Library/Burst
+--output=/home/jon/Documents/Unity/Team13_Project/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 

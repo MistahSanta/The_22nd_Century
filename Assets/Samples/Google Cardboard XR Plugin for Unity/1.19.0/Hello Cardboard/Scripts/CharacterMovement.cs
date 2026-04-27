@@ -1,54 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Fusion;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : NetworkBehaviour
 {
-    CharacterController charCntrl;
-    [Tooltip("The speed at which the character will move.")]
+    private NetworkCharacterController _cc;
     public float speed = 5f;
-    [Tooltip("The camera representing where the character is looking.")]
-    public GameObject cameraObj;
-    [Tooltip("Should be checked if using the Bluetooth Controller to move. If using keyboard, leave this unchecked.")]
-    public bool joyStickMode;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        charCntrl = GetComponent<CharacterController>();
+        _cc = GetComponent<NetworkCharacterController>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public override void FixedUpdateNetwork()
     {
-        //Get horizontal and Vertical movements
-        float horComp = Input.GetAxis("Horizontal");
-        float vertComp = Input.GetAxis("Vertical");
 
-        if (joyStickMode)
+        if (GetInput(out NetworkInputData data))
         {
-            horComp = Input.GetAxis("Vertical");
-            vertComp = Input.GetAxis("Horizontal") * -1;
-        }
-
-        Vector3 moveVect = Vector3.zero;
-
-        //Get look Direction
-        Vector3 cameraLook = cameraObj.transform.forward;
-        cameraLook.y = 0f;
-        cameraLook = cameraLook.normalized;
-
-        Vector3 forwardVect = cameraLook;
-        Vector3 rightVect = Vector3.Cross(forwardVect, Vector3.up).normalized * -1;
-
-        moveVect += rightVect * horComp;
-        moveVect += forwardVect * vertComp;
-
-        moveVect *= speed;
-     
-
-        charCntrl.SimpleMove(moveVect);
 
 
+            Vector3 inputDir = data.Direction.normalized;
+
+            Vector3 moveVect;
+
+            if (LocalPlayerHolder.GetLocalCamera() != null) 
+            {
+                float headsetYaw = data.CameraYaw;
+                Quaternion flatRotation = Quaternion.Euler(0, headsetYaw, 0);
+
+                Vector3 forward = flatRotation * Vector3.forward;
+                Vector3 right   = flatRotation * Vector3.right;
+
+                moveVect = (forward * inputDir.z) + (right * inputDir.x);
+            
+            
+            } else
+            {
+                moveVect = new Vector3(inputDir.x, 0, inputDir.z);
+
+            }
+
+            _cc.Move(moveVect * speed * Runner.DeltaTime);
+
+
+        }         
     }
 }

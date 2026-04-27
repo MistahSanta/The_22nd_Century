@@ -1,22 +1,72 @@
+using Fusion;
 using UnityEngine;
+using UnityEngine.AI;
+using System.Linq;
 
-public class ZombieScript : MonoBehaviour
+public class ZombieScript : NetworkBehaviour
 {
     private int zombie_health = 100;
     private Animator animator;
     private bool isDead = false;
+    [SerializeField] NavMeshAgent agent;
+    [SerializeField] float detectionRange = 15f;
+    Transform closestPlayer;
 
-    [Header("Movement")]
-    public float moveSpeed = 0.5f;
-    public float rotateSpeed = 3f;
+    public override void Spawned()
+    {
+        if (!HasStateAuthority) 
+        {
+            agent.enabled = false; // disable nav on proxy clients
+            return;
+        }
+    }
 
-    Transform player;
-    float groundY;
+    public override void FixedUpdateNetwork()
+    {
+        if (!HasStateAuthority) return;
+        FindClosestPlayer();
+
+        if (closestPlayer != null)
+        {
+            agent.isStopped = false;
+            animator.SetTrigger("Walk");
+            agent.SetDestination(closestPlayer.position);
+        }else
+        {   
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            animator.SetTrigger("Idle");
+            //Debug.Log("No player found for zombie!");
+        }
+    }
+
+    void FindClosestPlayer()
+    {
+        PlayerRef[] players = Runner.ActivePlayers.ToArray();
+        float closestDist = Mathf.Infinity;
+        closestPlayer = null;
+
+        foreach (PlayerRef playerRef in players)
+        {
+            if (Runner.TryGetPlayerObject(playerRef, out NetworkObject playerObj))
+            {
+                float dist = Vector3.Distance(transform.position, playerObj.transform.position);
+                if (dist < closestDist && dist < detectionRange)
+                {
+
+                    closestDist = dist;
+                    closestPlayer = playerObj.transform;
+                }else
+                {
+                    //Debug.Log("Cant find player object!");
+                }
+            }
+        }
+    }
 
     public void take_damage(int bullet_damage)
     {
         if (isDead) return;
-
         Debug.Log("Zombie got hit! Damage: " + bullet_damage + " HP left: " + (zombie_health - bullet_damage));
         zombie_health -= bullet_damage;
         HapticFeedback.VibrateHit();
@@ -29,8 +79,9 @@ public class ZombieScript : MonoBehaviour
             isDead = true;
             Debug.Log("Zombie died!");
             if (animator != null) animator.SetTrigger("Die");
+            agent.isStopped = true;
             // Fade out and destroy
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 1f);
             return;
         }
 
@@ -54,50 +105,13 @@ public class ZombieScript : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        groundY = transform.position.y;
-        moveSpeed = 0.5f;
+        agent = GetComponent<NavMeshAgent>();
 
-        GameObject playerObj = GameObject.Find("Player");
-        if (playerObj != null)
-            player = playerObj.transform;
-
-        // Make sure collider exists and is big enough
-        BoxCollider box = GetComponent<BoxCollider>();
-        if (box == null)
-            box = gameObject.AddComponent<BoxCollider>();
-        // Make collider big relative to zombie size
-        box.center = new Vector3(0, 1.5f, 0);
-        box.size = new Vector3(2f, 3f, 2f);
-    }
-
-    void Update()
-    {
-        if (isDead || player == null) return;
-        if (GameManager.Instance != null && GameManager.Instance.IsInPresent) return;
-        if (GameManager.Instance != null && GameManager.Instance.IsGameOver) return;
-
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
-
-        if (direction.magnitude > 0.1f)
+        if (agent == null)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-
-            Vector3 move = direction.normalized * moveSpeed * Time.deltaTime;
-            move.y = 0;
-            transform.position += move;
-
-            Vector3 pos = transform.position;
-            pos.y = groundY;
-            transform.position = pos;
+            Debug.Log("Agent is not set in zombie!");   
         }
 
-        // Game over when zombie reaches player
-        if (direction.magnitude < 1.2f)
-        {
-            if (GameManager.Instance != null && !GameManager.Instance.IsGameOver)
-                GameManager.Instance.GameOver();
-        }
+        
     }
 }

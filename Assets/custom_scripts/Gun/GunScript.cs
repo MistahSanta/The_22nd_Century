@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioClip shootSound;
     private bool gun_equip = false;
     private float equip_speed = 8f;
-    public Transform main_camera;
+    private Transform main_camera;
     public GameObject bullet;
     public Transform gun_barrel;
     public ParticleSystem muzzle_flash;
     private Animator gun_animator;
     Light gunLight;
-
+    [Range(0f, 1f)] public float shootVolume = 1f;
+    private AudioSource _audioSource;
     void Start()
     {
         gun_animator = GetComponentInChildren<Animator>();
@@ -39,31 +42,15 @@ public class GunScript : MonoBehaviour
         gunLight.range = 12f;
         gunLight.intensity = 4f;
 
-        // Big BoxCollider for easy detection from all angles
-        BoxCollider col = GetComponent<BoxCollider>();
-        if (col == null) col = gameObject.AddComponent<BoxCollider>();
-        col.center = transform.InverseTransformPoint(bounds.center);
-        col.size = Vector3.one * 5f;
-        col.isTrigger = true;
-
-        // Ensure gun_barrel exists
-        if (gun_barrel == null)
-        {
-            gun_barrel = transform.Find("gun_barrel");
-            if (gun_barrel == null)
-            {
-                GameObject b = new GameObject("gun_barrel");
-                b.transform.SetParent(transform, false);
-                b.transform.localPosition = new Vector3(0, 0.05f, 0.3f);
-                gun_barrel = b.transform;
-            }
-        }
-
-        Debug.Log($"Gun ready at {transform.position}, collider center={col.center} size={col.size}");
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.spatialBlend = 1f;  // 3D audio so other players hear it positionally
+        _audioSource.rolloffMode = AudioRolloffMode.Linear;
+        _audioSource.maxDistance = 30f;
+        _audioSource.playOnAwake = false;
 
         // Also add self-detection (backup if raycast fails)
-        if (GetComponent<GunProximityDetector>() == null)
-            gameObject.AddComponent<GunProximityDetector>();
+        // if (GetComponent<GunProximityDetector>() == null)
+        //     gameObject.AddComponent<GunProximityDetector>();
     }
 
     public bool IsEquipped() { return gun_equip; }
@@ -72,6 +59,27 @@ public class GunScript : MonoBehaviour
     {
         gun_equip = true;
         Debug.Log("Gun equipped!");
+
+        // Disable collider, so raycast doesn't accidently show popup menu 
+        // while holding the gun 
+        BoxCollider myCollider = GetComponent<BoxCollider>();
+        myCollider.enabled = false;
+
+    // Directly grab the camera assigned to the local user
+        if (LocalPlayerHolder.GetLocalCamera() != null)
+        {
+            main_camera = LocalPlayerHolder.GetLocalCamera();
+            gun_equip = true;
+            Debug.Log("Gun attached to local player camera.");
+        }
+        else
+        {
+            // Safety fallback
+            main_camera = Camera.main?.transform;
+            gun_equip = true;
+            Debug.LogWarning("LocalPlayerHolder not set, falling back to Camera.main");
+        }
+
 
         if (gunLight != null) gunLight.enabled = false;
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
@@ -87,13 +95,14 @@ public class GunScript : MonoBehaviour
         if (bullet == null)
         {
             Debug.LogWarning("Gun: bullet not assigned!");
-            HapticFeedback.VibrateShoot();
             return;
         }
 
-        bullet.SetActive(true);
+        if (shootSound != null && _audioSource != null)
+            _audioSource.PlayOneShot(shootSound, shootVolume);
+
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
-            Quaternion.identity);
+            Quaternion.Euler(90,0,0));
         b.SetActive(true);
         Rigidbody rb = b.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
@@ -101,7 +110,6 @@ public class GunScript : MonoBehaviour
         HapticFeedback.VibrateShoot();
         if (muzzle_flash != null) muzzle_flash.Play();
         Destroy(b, 4);
-        bullet.SetActive(false);
     }
 
     void LateUpdate()
@@ -112,7 +120,7 @@ public class GunScript : MonoBehaviour
             + main_camera.right * 0.25f - main_camera.up * 0.25f;
         transform.position = Vector3.Lerp(transform.position, target, equip_speed * Time.deltaTime);
         // Rotate gun to face forward (away from player)
-        transform.rotation = main_camera.rotation * Quaternion.Euler(0, 180, 0);
+        transform.rotation = main_camera.rotation * Quaternion.Euler(0, 0, 0);
 
         bool shoot = ControllerMapping.Instance != null
             ? ControllerMapping.Instance.GetShootDown()
