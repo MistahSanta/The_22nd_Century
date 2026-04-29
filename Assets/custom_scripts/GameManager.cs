@@ -67,6 +67,7 @@ public class GameManager : NetworkBehaviour
     bool hasGarbagePicker = false;
     bool hasShovel = false;
     GameObject gameOverPanel;
+    int lastTimeMachineIdx = -1;
 
     // Public read-only accessors (read from networked state)
     public bool IsInPresent => isInPresent;
@@ -108,6 +109,12 @@ public class GameManager : NetworkBehaviour
 
         if (NetworkedGameOver && gameOverPanel != null)
             gameOverPanel.SetActive(true);
+
+        if (HasStateAuthority)
+        {
+            NetworkedTimeMachinePos = new Vector3(1.57f, 0.18f, -2.50f);
+            NetworkedTimeMachineRot = new Vector3(-90f, 0f, -160f);
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -147,6 +154,13 @@ public class GameManager : NetworkBehaviour
                 ? ControllerMapping.Instance.GetInteractDown()
                 : Input.GetKeyDown(KeyCode.E);
             if (restart) RestartGame();
+        }
+
+        if (ControllerMapping.Instance != null && ControllerMapping.Instance.GetJumpDown())
+        {
+            Transform player = LocalPlayerHolder.GetLocalCamera();
+            if (player != null)
+                Debug.Log($"Position: {player.position}");
         }
     }
 
@@ -249,23 +263,33 @@ public class GameManager : NetworkBehaviour
         // Pick a random safe position and sync it
         Vector3[] safePositions =
         {
-            new Vector3(22f, 0.18f, 8f),
-            // new Vector3(-45f, 0f, 15f), new Vector3(-2f,   0f, 13f),
-            // new Vector3(0f,   0f, -20f), new Vector3(-45f, 0f, -28f),
-            // new Vector3(-5f,   0f, -3f), new Vector3(-18f,  0.2f,  -12f),
-            // new Vector3(-20f, 0f,  6f),
+            new Vector3(0.36f, 0.18f, -3.03f),
+            new Vector3(0.99f, 0.18f, 18.19f),
+            new Vector3(17.68f, 0.18f, 19.77f),
+            new Vector3(21.73f, 0.18f, -5.92f),
+            new Vector3(-20.62f, 0.18f, 20.72f),
+            new Vector3(-20.49f, 0.18f, -20.62f),
+            new Vector3(-2.76f, 0.18f, -20.30f),
         };
 
         Vector3[] safeRotations =
         {
             new Vector3(-90f, 0f, -160f),
-            // new Vector3(-90f, 0f, -310f), new Vector3(-90f, 0f, -215f),
-            // new Vector3(-90f, 0f, -160f), new Vector3(-90f, 0f, -20f),
-            // new Vector3(-90f, 0f, 160f), new Vector3(-90f, 0f, -160f),
-            // new Vector3(-90f, 0f, 120f),
+            new Vector3(-90f, 0f, -160f),
+            new Vector3(-90f, 0f, -160f),
+            new Vector3(-90f, 0f, -160f),
+            new Vector3(-90f, 0f, -160f),
+            new Vector3(-90f, 0f, -160f),
+            new Vector3(-90f, 0f, -160f),
         };
 
-        int idx = Random.Range(0, safePositions.Length);
+        int idx;
+        do
+        {
+            idx = Random.Range(0, safePositions.Length);
+        } while (idx == lastTimeMachineIdx);
+        lastTimeMachineIdx = idx;
+
         NetworkedTimeMachinePos = safePositions[idx];
         NetworkedTimeMachineRot = safeRotations[idx];
     }
