@@ -86,6 +86,7 @@ public class GameManager : NetworkBehaviour
 
     public enum EquippedTool { None, GarbagePicker, Shovel }
     public EquippedTool CurrentTool { get; private set; } = EquippedTool.None;
+    public bool IsTutorialActive { get; private set; } = true;
 
     // ─── Unity Lifecycle ──────────────────────────────────────────────────────
 
@@ -93,6 +94,11 @@ public class GameManager : NetworkBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+    }
+
+    public void StartGame()
+    {
+        IsTutorialActive = false;
     }
 
     public override void Spawned()
@@ -112,7 +118,7 @@ public class GameManager : NetworkBehaviour
 
         if (HasStateAuthority)
         {
-            NetworkedTimeMachinePos = new Vector3(1.57f, 0.18f, -2.50f);
+            NetworkedTimeMachinePos = new Vector3(2.57f, 0.18f, -3.50f);
             NetworkedTimeMachineRot = new Vector3(-90f, 0f, -160f);
         }
     }

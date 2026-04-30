@@ -13,6 +13,7 @@ public class ZombieSpawner : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (GameManager.Instance.IsTutorialActive) return;
         if (!HasStateAuthority) return;
         if (GameManager.Instance == null) return;
         if (GameManager.Instance.IsInPresent) return;
