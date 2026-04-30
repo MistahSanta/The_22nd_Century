@@ -8,7 +8,7 @@ public class TimeMachineScript : MonoBehaviour
 
     void Start()
     {
-        
+
         // Make collider big enough for raycast (model is scale 0.05)
         BoxCollider col = GetComponent<BoxCollider>();
         if (col == null) col = gameObject.AddComponent<BoxCollider>();
@@ -63,9 +63,10 @@ public class TimeMachineScript : MonoBehaviour
 
     public void ActivateTravel()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayTimeMachine();
 
         if (GameManager.Instance == null || !GameManager.Instance.IsReady) return;
-        
+
         Debug.Log("Travel button is pressed");
         // Check distance
         Transform player = LocalPlayerHolder.GetLocalCamera();

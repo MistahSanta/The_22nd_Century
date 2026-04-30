@@ -38,6 +38,8 @@ public class TreePlanting : MonoBehaviour
 
     public void Plant()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayTreePlant();
+
         if (GameManager.Instance != null && !GameManager.Instance.HasShovel)
         {
             Debug.Log("Need shovel first!");

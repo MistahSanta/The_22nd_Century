@@ -209,6 +209,7 @@ public class GameManager : NetworkBehaviour
     public void EquipShovel() { CurrentTool = EquippedTool.Shovel; }
     public void SwitchTool()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayToolSwitch();
         if (CurrentTool == EquippedTool.GarbagePicker) CurrentTool = EquippedTool.Shovel;
         else if (CurrentTool == EquippedTool.Shovel) CurrentTool = EquippedTool.GarbagePicker;
     }

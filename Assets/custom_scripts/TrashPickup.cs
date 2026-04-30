@@ -40,6 +40,8 @@ public class TrashPickup : MonoBehaviour
 
     public void Collect()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayTrashPickup();
+
         // Can only collect if player has garbage picker
         if (GameManager.Instance != null && !GameManager.Instance.HasGarbagePicker)
         {

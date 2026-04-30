@@ -27,6 +27,8 @@ public class TrashGrabberScript : NetworkBehaviour
 
     public void SetEquipped()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayGarbagePickerPickup();
+
         if (Runner == null || !IsAvailable)
         {
             Debug.Log("Grabber already taken!");
@@ -108,8 +110,8 @@ public class TrashGrabberScript : NetworkBehaviour
         // Always update position regardless of isActive — tool should follow even if briefly invisible
         Vector3 target = mainCamera.position
             + mainCamera.forward * 0.5f
-            - mainCamera.right   * 0.25f
-            - mainCamera.up      * 0.3f;
+            - mainCamera.right * 0.25f
+            - mainCamera.up * 0.3f;
 
         transform.position = Vector3.Lerp(transform.position, target, 8f * Time.deltaTime);
         transform.rotation = mainCamera.rotation;

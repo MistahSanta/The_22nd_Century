@@ -40236,6 +40236,7 @@ GameObject:
   - component: {fileID: 2127443635}
   - component: {fileID: 2127443638}
   - component: {fileID: 2127443639}
+  - component: {fileID: 2127443640}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -40349,6 +40350,24 @@ MonoBehaviour:
   zombiePrefab: {fileID: 7086667427711407514, guid: b7b57890c33cd461ab9929c6f002e164, type: 3}
   spawnInterval: 5
   maxZombies: 10
+--- !u!114 &2127443640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127443634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e68b6ca204a4484d9632326aeacc0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  trashPickupSound: {fileID: 8300000, guid: ba39bf8baf6d13046889b2d64822381a, type: 3}
+  treePlantSound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
+  timeMachineSound: {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
+  garbagePickerPickupSound: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
+  shovelPickupSound: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
+  toolSwitchSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
 --- !u!1001 &2135345763
 PrefabInstance:
   m_ObjectHideFlags: 0
