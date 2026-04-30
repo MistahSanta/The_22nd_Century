@@ -14,16 +14,20 @@ public class ZombieScript : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (!HasStateAuthority) 
+        agent = GetComponent<NavMeshAgent>();
+
+        if (!HasStateAuthority)
         {
-            agent.enabled = false; // disable nav on proxy clients
             return;
         }
+
+        if (agent != null) agent.enabled = true;
     }
 
     public override void FixedUpdateNetwork()
     {
         if (!HasStateAuthority) return;
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh) return;
         FindClosestPlayer();
 
         if (closestPlayer != null)
@@ -31,8 +35,9 @@ public class ZombieScript : NetworkBehaviour
             agent.isStopped = false;
             animator.SetTrigger("Walk");
             agent.SetDestination(closestPlayer.position);
-        }else
-        {   
+        }
+        else
+        {
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             animator.SetTrigger("Idle");
@@ -42,26 +47,22 @@ public class ZombieScript : NetworkBehaviour
 
     void FindClosestPlayer()
     {
-        PlayerRef[] players = Runner.ActivePlayers.ToArray();
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         float closestDist = Mathf.Infinity;
         closestPlayer = null;
 
-        foreach (PlayerRef playerRef in players)
+        foreach (GameObject player in players)
         {
-            if (Runner.TryGetPlayerObject(playerRef, out NetworkObject playerObj))
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist < closestDist && dist < detectionRange)
             {
-                float dist = Vector3.Distance(transform.position, playerObj.transform.position);
-                if (dist < closestDist && dist < detectionRange)
-                {
-
-                    closestDist = dist;
-                    closestPlayer = playerObj.transform;
-                }else
-                {
-                    //Debug.Log("Cant find player object!");
-                }
+                closestDist = dist;
+                closestPlayer = player.transform;
             }
         }
+
+        if (closestPlayer == null)
+            Debug.Log("Cant find player object!");
     }
 
     public void take_damage(int bullet_damage)
@@ -78,6 +79,8 @@ public class ZombieScript : NetworkBehaviour
         {
             isDead = true;
             Debug.Log("Zombie died!");
+            var spawner = FindObjectOfType<ZombieSpawner>();
+            if (spawner != null) spawner.ZombieDied();
             if (animator != null) animator.SetTrigger("Die");
             agent.isStopped = true;
             // Fade out and destroy
@@ -109,9 +112,9 @@ public class ZombieScript : NetworkBehaviour
 
         if (agent == null)
         {
-            Debug.Log("Agent is not set in zombie!");   
+            Debug.Log("Agent is not set in zombie!");
         }
 
-        
+
     }
 }

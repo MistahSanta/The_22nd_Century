@@ -63,6 +63,7 @@ public class TrashPickup : MonoBehaviour
         {
             GameManager.Instance.CollectTrash();
             HapticFeedback.VibrateInteract();
+            if (SoundManager.Instance != null) SoundManager.Instance.PlayTrashPickup();
         }
         gameObject.SetActive(false);
     }

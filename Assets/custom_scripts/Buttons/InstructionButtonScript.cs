@@ -7,7 +7,7 @@ public class InstructionButtonScript : MonoBehaviour, IButton
 {
     public GameObject control_menu_panel;
     public Canvas setting_menu_canva;
-    private  CharacterMovement char_move; 
+    private CharacterMovement char_move;
 
     private void Start()
     {
@@ -19,12 +19,13 @@ public class InstructionButtonScript : MonoBehaviour, IButton
         }
     }
     public void Execute()
-    { 
-        // Show instruction menu and resume character move
-
+    {
         control_menu_panel.SetActive(true);
         setting_menu_canva.enabled = false;
         char_move.enabled = true;
+
+        SettingManagerScript settingScript = setting_menu_canva.GetComponent<SettingManagerScript>();
+        if (settingScript != null) settingScript.menu_is_open = false;
 
         ControlsMenu menu = control_menu_panel.transform.parent.GetComponent<ControlsMenu>();
         menu.isVisible = true;
@@ -32,7 +33,7 @@ public class InstructionButtonScript : MonoBehaviour, IButton
 
     public void setHover(bool isHovering)
     {  // No need to implement anything for this button
-        
+
     }
 }
 

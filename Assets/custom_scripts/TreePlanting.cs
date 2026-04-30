@@ -63,6 +63,7 @@ public class TreePlanting : MonoBehaviour
         {
             GameManager.Instance.PlantTree();
             HapticFeedback.VibrateInteract();
+            if (SoundManager.Instance != null) SoundManager.Instance.PlayTreePlant();
         }
 
         gameObject.SetActive(false);

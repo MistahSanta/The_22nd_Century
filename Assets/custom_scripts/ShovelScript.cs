@@ -27,6 +27,8 @@ public class ShovelScript : NetworkBehaviour
 
     public void SetEquipped()
     {
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayShovelPickup();
+
         if (Runner == null || !IsAvailable)
         {
             Debug.Log("Shovel already taken!");
@@ -42,7 +44,7 @@ public class ShovelScript : NetworkBehaviour
         DoEquip(Runner.LocalPlayer);
     }
 
-    
+
     void DoEquip(PlayerRef player)
     {
         EquippedBy = player;
@@ -108,8 +110,8 @@ public class ShovelScript : NetworkBehaviour
         // Always update position regardless of isActive
         Vector3 target = mainCamera.position
             + mainCamera.forward * 0.5f
-            + mainCamera.right   * 0.25f
-            - mainCamera.up      * 0.3f;
+            + mainCamera.right * 0.25f
+            - mainCamera.up * 0.3f;
 
         transform.position = Vector3.Lerp(transform.position, target, 8f * Time.deltaTime);
         transform.rotation = mainCamera.rotation;
