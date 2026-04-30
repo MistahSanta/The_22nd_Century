@@ -130,6 +130,7 @@ public class GameManager : NetworkBehaviour
             {
                 NetworkedTimer = 0f;
                 NetworkedTimerRunning = false;
+                if (SoundManager.Instance != null) SoundManager.Instance.PlayTimerEnd();
                 Debug.Log("Time's up! Return to the Time Machine!");
             }
         }

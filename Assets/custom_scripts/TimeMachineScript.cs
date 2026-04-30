@@ -63,8 +63,6 @@ public class TimeMachineScript : MonoBehaviour
 
     public void ActivateTravel()
     {
-        if (SoundManager.Instance != null) SoundManager.Instance.PlayTimeMachine();
-
         if (GameManager.Instance == null || !GameManager.Instance.IsReady) return;
 
         Debug.Log("Travel button is pressed");
@@ -89,6 +87,7 @@ public class TimeMachineScript : MonoBehaviour
         }
 
         HapticFeedback.VibrateInteract();
+        if (SoundManager.Instance != null) SoundManager.Instance.PlayTimeMachine();
         GameManager.Instance.ActivateTimeMachine();
     }
 

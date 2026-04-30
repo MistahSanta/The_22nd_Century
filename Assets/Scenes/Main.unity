@@ -4100,7 +4100,7 @@ MonoBehaviour:
   progressBarFill: {fileID: 679078075}
   statusText: {fileID: 126387717}
   percentText: {fileID: 1778204584}
-  hudPanel: {fileID: 0}
+  hudPanel: {fileID: 62212428}
   timerText: {fileID: 1154135472}
   followDistance: 2.5
   heightOffset: 1.2
@@ -40368,6 +40368,7 @@ MonoBehaviour:
   garbagePickerPickupSound: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
   shovelPickupSound: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
   toolSwitchSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+  timerEndSound: {fileID: 8300000, guid: 3d94181ec60db43a1803c27938453d84, type: 3}
 --- !u!1001 &2135345763
 PrefabInstance:
   m_ObjectHideFlags: 0

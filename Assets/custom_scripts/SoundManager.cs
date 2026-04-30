@@ -11,6 +11,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip garbagePickerPickupSound;
     public AudioClip shovelPickupSound;
     public AudioClip toolSwitchSound;
+    public AudioClip timerEndSound;
 
     AudioSource audioSource;
 
@@ -33,4 +34,5 @@ public class SoundManager : MonoBehaviour
     public void PlayGarbagePickerPickup() => audioSource.PlayOneShot(garbagePickerPickupSound);
     public void PlayShovelPickup() => audioSource.PlayOneShot(shovelPickupSound);
     public void PlayToolSwitch() => audioSource.PlayOneShot(toolSwitchSound);
+    public void PlayTimerEnd() => audioSource.PlayOneShot(timerEndSound);
 }
