@@ -13,8 +13,6 @@ public class ZombieSpawner : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        Debug.Log($"HasStateAuthority: {HasStateAuthority}, World state: {GameManager.Instance?.NetworkedWorldState}");
-
         if (!HasStateAuthority) return;
         if (GameManager.Instance == null) return;
         if (GameManager.Instance.IsInPresent) return;
@@ -23,7 +21,6 @@ public class ZombieSpawner : NetworkBehaviour
         float pct = GameManager.Instance.CleanlinessPercent;
 
         int maxAllowed = GetMaxZombiesBasedOnCleanliness();
-        Debug.Log($"pct: {pct}, maxAllowed: {maxAllowed}, currentCount: {currentZombieCount}");
 
         spawnTimer += Runner.DeltaTime;
         if (spawnTimer >= spawnInterval && currentZombieCount < maxAllowed)

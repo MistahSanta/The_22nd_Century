@@ -155,13 +155,6 @@ public class GameManager : NetworkBehaviour
                 : Input.GetKeyDown(KeyCode.E);
             if (restart) RestartGame();
         }
-
-        if (ControllerMapping.Instance != null && ControllerMapping.Instance.GetJumpDown())
-        {
-            Transform player = LocalPlayerHolder.GetLocalCamera();
-            if (player != null)
-                Debug.Log($"Position: {player.position}");
-        }
     }
 
     // ─── Public Actions (called locally, authority changes networked state) ───
@@ -328,6 +321,7 @@ public class GameManager : NetworkBehaviour
             isInPresent = true;
             if (presentWorld != null) presentWorld.SetActive(true);
             if (skyboxPresent != null) RenderSettings.skybox = skyboxPresent;
+            DynamicGI.UpdateEnvironment();
             if (gunObject != null) gunObject.SetActive(false);
 
             Transform zombies = presentWorld?.transform.Find("Zombies");
@@ -343,18 +337,22 @@ public class GameManager : NetworkBehaviour
                 case 0:
                     if (futureApocalypse != null) futureApocalypse.SetActive(true);
                     if (skyboxApocalypse != null) RenderSettings.skybox = skyboxApocalypse;
+                    DynamicGI.UpdateEnvironment();
                     break;
                 case 1:
                     if (futureCleaner != null) futureCleaner.SetActive(true);
                     if (skyboxCleaner != null) RenderSettings.skybox = skyboxCleaner;
+                    DynamicGI.UpdateEnvironment();
                     break;
                 case 2:
                     if (futureGettingCleaner != null) futureGettingCleaner.SetActive(true);
                     if (skyboxGettingCleaner != null) RenderSettings.skybox = skyboxGettingCleaner;
+                    DynamicGI.UpdateEnvironment();
                     break;
                 case 3:
                     if (futureVeryClean != null) futureVeryClean.SetActive(true);
                     if (skyboxVeryClean != null) RenderSettings.skybox = skyboxVeryClean;
+                    DynamicGI.UpdateEnvironment();
                     break;
             }
 
