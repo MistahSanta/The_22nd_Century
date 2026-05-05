@@ -437,7 +437,7 @@ public class ObjectiveTracker : MonoBehaviour
         }
 
         missionBriefing.SetActive(true);
-        briefingTimer = 15f; // Auto dismiss after 15s
+        briefingTimer = 12f; // Auto dismiss after 15s
     }
 
     void UpdateKillCounter()
