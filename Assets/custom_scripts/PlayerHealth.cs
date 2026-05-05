@@ -40,7 +40,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        invincibleDuration = 2f;
+        invincibleDuration = 2.5f; // longer invincibility window
 
         if (isLocalPlayer)
         {
