@@ -499,7 +499,7 @@ public class PlayerHealth : MonoBehaviour
             sphere.name = "Heart3D_" + i;
             sphere.transform.SetParent(overheadBar.transform, false);
             sphere.transform.localPosition = new Vector3((i - 1) * 0.35f, 0, 0);
-            sphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            sphere.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
 
             // Remove collider
             var col = sphere.GetComponent<Collider>();
