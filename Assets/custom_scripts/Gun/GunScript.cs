@@ -79,10 +79,11 @@ public class GunScript : MonoBehaviour
         if (shootSound != null && _audioSource != null)
             _audioSource.PlayOneShot(shootSound, shootVolume);
 
-        // Spawn bullet facing camera forward direction
+        // Spawn bullet facing camera forward, rotated to align model
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
-            Quaternion.LookRotation(main_camera.forward));
+            Quaternion.LookRotation(main_camera.forward) * Quaternion.Euler(90, 0, 0));
         b.SetActive(true);
+        b.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         Rigidbody rb = b.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
         if (gun_animator != null) gun_animator.SetTrigger("Fire");
