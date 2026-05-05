@@ -94,7 +94,7 @@ public class GunScript : MonoBehaviour
         trail.startColor = new Color(1f, 0.8f, 0.2f, 1f);
         trail.endColor = new Color(1f, 0.3f, 0f, 0f);
         Rigidbody rb = b.GetComponent<Rigidbody>();
-        if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
+        if (rb != null) rb.linearVelocity = main_camera.forward * 3f; // TEMP slow for testing
         if (gun_animator != null) gun_animator.SetTrigger("Fire");
         HapticFeedback.VibrateShoot();
         if (muzzle_flash != null) muzzle_flash.Play();
