@@ -35,6 +35,10 @@ public class SceneSetup : MonoBehaviour
         // Save the scene automatically
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
 
+        // Clean up test objects
+        GameObject oldTest = GameObject.Find("TEST_BULLET");
+        if (oldTest != null) Object.DestroyImmediate(oldTest);
+
         Debug.Log("Main scene setup complete! Scene saved.");
     }
 
