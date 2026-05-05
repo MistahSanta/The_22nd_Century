@@ -452,26 +452,53 @@ public class PlayerHealth : MonoBehaviour
         c.sortingOrder = 250;
 
         RectTransform cRect = gameOverUI.GetComponent<RectTransform>();
-        cRect.sizeDelta = new Vector2(500, 200);
-        cRect.localScale = new Vector3(0.003f, 0.003f, 0.003f);
 
-        GameObject bg = new GameObject("BG");
-        bg.transform.SetParent(gameOverUI.transform, false);
-        var bgImg = bg.AddComponent<Image>();
-        bgImg.color = new Color(0.6f, 0, 0, 0.85f);
-        bg.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 200);
+        if (isLocalPlayer)
+        {
+            cRect.sizeDelta = new Vector2(500, 200);
+            cRect.localScale = new Vector3(0.003f, 0.003f, 0.003f);
 
-        GameObject txt = new GameObject("Text");
-        txt.transform.SetParent(bg.transform, false);
-        var text = txt.AddComponent<TMPro.TextMeshProUGUI>();
-        text.text = "GAME OVER\n\nPress [A] to restart";
-        text.fontSize = 36;
-        text.alignment = TMPro.TextAlignmentOptions.Center;
-        text.color = Color.white;
-        var tRect = txt.GetComponent<RectTransform>();
-        tRect.anchorMin = Vector2.zero;
-        tRect.anchorMax = Vector2.one;
-        tRect.sizeDelta = Vector2.zero;
+            GameObject bg = new GameObject("BG");
+            bg.transform.SetParent(gameOverUI.transform, false);
+            var bgImg = bg.AddComponent<Image>();
+            bgImg.color = new Color(0.6f, 0, 0, 0.85f);
+            bg.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 200);
+
+            GameObject txt = new GameObject("Text");
+            txt.transform.SetParent(bg.transform, false);
+            var text = txt.AddComponent<TMPro.TextMeshProUGUI>();
+            text.text = "GAME OVER\n\nPress [A] to restart";
+            text.fontSize = 36;
+            text.alignment = TMPro.TextAlignmentOptions.Center;
+            text.color = Color.white;
+            var tRect = txt.GetComponent<RectTransform>();
+            tRect.anchorMin = Vector2.zero;
+            tRect.anchorMax = Vector2.one;
+            tRect.sizeDelta = Vector2.zero;
+        }
+        else
+        {
+            cRect.sizeDelta = new Vector2(80, 25);
+            cRect.localScale = new Vector3(0.015f, 0.015f, 0.015f);
+
+            GameObject bg = new GameObject("BG");
+            bg.transform.SetParent(gameOverUI.transform, false);
+            var bgImg = bg.AddComponent<Image>();
+            bgImg.color = new Color(0.7f, 0, 0, 0.8f);
+            bg.GetComponent<RectTransform>().sizeDelta = new Vector2(80, 25);
+
+            GameObject txt = new GameObject("Text");
+            txt.transform.SetParent(bg.transform, false);
+            var text = txt.AddComponent<TMPro.TextMeshProUGUI>();
+            text.text = "DEAD";
+            text.fontSize = 20;
+            text.alignment = TMPro.TextAlignmentOptions.Center;
+            text.color = Color.white;
+            var tRect = txt.GetComponent<RectTransform>();
+            tRect.anchorMin = Vector2.zero;
+            tRect.anchorMax = Vector2.one;
+            tRect.sizeDelta = Vector2.zero;
+        }
     }
 
     GameObject overheadBar;
