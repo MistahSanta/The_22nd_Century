@@ -81,7 +81,7 @@ public class GunScript : MonoBehaviour
 
         // Spawn bullet facing camera forward, rotated to align model
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
-            Quaternion.LookRotation(main_camera.forward));
+            Quaternion.LookRotation(main_camera.forward) * Quaternion.Euler(0, 90, 0));
         b.SetActive(true);
         b.transform.localScale = new Vector3(2f, 2f, 2f); // TEMP: big for testing orientation
 
