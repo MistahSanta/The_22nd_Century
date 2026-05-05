@@ -460,7 +460,7 @@ public class ObjectiveTracker : MonoBehaviour
                 // Position between objective (top-left) and hearts (top-right)
                 killCounterCanvas.transform.position = mainCam.transform.position
                     + mainCam.transform.forward * 1.2f
-                    + mainCam.transform.up * 0.58f;
+                    + mainCam.transform.up * 0.55f;
                 killCounterCanvas.transform.rotation = Quaternion.LookRotation(
                     killCounterCanvas.transform.position - mainCam.transform.position);
 
