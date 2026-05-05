@@ -610,7 +610,7 @@ public class ObjectiveTracker : MonoBehaviour
         mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.One); // Additive
         mat.SetFloat("_Mode", 2); // Fade mode
         mat.renderQueue = 3000;
-        mat.color = new Color(0.95f, 0.97f, 1f, 0.06f);
+        mat.color = new Color(0.95f, 0.97f, 1f, 0.03f);
         beamLine.material = mat;
 
         // Gradient: subtle glow at bottom, fade to nothing at top
@@ -621,7 +621,7 @@ public class ObjectiveTracker : MonoBehaviour
                 new GradientColorKey(new Color(0.95f, 0.97f, 1f), 1f)
             },
             new GradientAlphaKey[] {
-                new GradientAlphaKey(0.15f, 0f),
+                new GradientAlphaKey(0.08f, 0f),
                 new GradientAlphaKey(0f, 1f)
             }
         );
