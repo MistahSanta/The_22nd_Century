@@ -66,7 +66,7 @@ public class PlayerHealth : MonoBehaviour
         if (damageFlash != null && damageFlash.color.a > 0)
         {
             Color c = damageFlash.color;
-            c.a = Mathf.Max(0, c.a - Time.deltaTime * 2f);
+            c.a = Mathf.Max(0, c.a - Time.deltaTime * 1.5f);
             damageFlash.color = c;
         }
 
