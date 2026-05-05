@@ -78,7 +78,11 @@ public class SceneSetup : MonoBehaviour
         SetMaterialProperty(so, "skyboxCleaner", "Assets/AllSkyFree/Overcast Low/AllSky_Overcast4_Low.mat");
         SetMaterialProperty(so, "skyboxGettingCleaner", "Assets/SkySeries Freebie/Cloudymorning.mat");
         SetMaterialProperty(so, "skyboxVeryClean", "Assets/SkySeries Freebie/CasualDay.mat");
-        SetMaterialProperty(so, "skyboxPresent", "Assets/SkySeries Freebie/FluffballDay.mat");
+        SetMaterialProperty(so, "skyboxPresent", "Assets/SkySeries Freebie/CasualDay.mat");
+
+        // Force timer to 120 seconds
+        var timerProp = so.FindProperty("presentWorldTime");
+        if (timerProp != null) timerProp.floatValue = 120f;
 
         // Set gun and TM references
         GameObject gun = GameObject.Find("Gun");
@@ -134,27 +138,61 @@ public class SceneSetup : MonoBehaviour
             barrel = barrelObj.transform;
         }
 
-        // Create Bullet if missing
+        // Create Bullet if missing — try FBX model first
         GameObject bullet = GameObject.Find("Bullet");
         if (bullet == null)
         {
-            bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            bullet.name = "Bullet";
-            bullet.transform.position = new Vector3(0, -100, 0);
-            bullet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            bullet.AddComponent<Rigidbody>().useGravity = false;
-            bullet.AddComponent<BulletScript>();
-            bullet.GetComponent<SphereCollider>().isTrigger = true;
+            GameObject bulletModel = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/BulletModel/bullet.fbx");
+            if (bulletModel != null)
+            {
+                bullet = (GameObject)PrefabUtility.InstantiatePrefab(bulletModel);
+                bullet.name = "Bullet";
+                bullet.transform.position = new Vector3(0, -100, 0);
+                bullet.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+
+                // Add components
+                if (bullet.GetComponent<Rigidbody>() == null)
+                    bullet.AddComponent<Rigidbody>().useGravity = false;
+                else
+                    bullet.GetComponent<Rigidbody>().useGravity = false;
+                if (bullet.GetComponent<BulletScript>() == null)
+                    bullet.AddComponent<BulletScript>();
+
+                // Add collider if missing
+                if (bullet.GetComponent<Collider>() == null)
+                {
+                    var sc = bullet.AddComponent<SphereCollider>();
+                    sc.isTrigger = true;
+                    sc.radius = 5f;
+                }
+                else
+                {
+                    bullet.GetComponent<Collider>().isTrigger = true;
+                }
+
+                Debug.Log("Bullet: using FBX model");
+            }
+            else
+            {
+                // Fallback to sphere
+                bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                bullet.name = "Bullet";
+                bullet.transform.position = new Vector3(0, -100, 0);
+                bullet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                bullet.AddComponent<Rigidbody>().useGravity = false;
+                bullet.AddComponent<BulletScript>();
+                bullet.GetComponent<SphereCollider>().isTrigger = true;
+                Debug.Log("Bullet: using fallback sphere");
+            }
             bullet.SetActive(false);
         }
 
-        // Set GunScript references
-        Camera mainCam = Camera.main;
+        // Set GunScript references (only public/serialized fields)
         var so = new SerializedObject(gunScript);
-        if (mainCam != null)
-            so.FindProperty("main_camera").objectReferenceValue = mainCam.transform;
-        so.FindProperty("bullet").objectReferenceValue = bullet;
-        so.FindProperty("gun_barrel").objectReferenceValue = barrel;
+        var bulletProp = so.FindProperty("bullet");
+        var barrelProp = so.FindProperty("gun_barrel");
+        if (bulletProp != null) bulletProp.objectReferenceValue = bullet;
+        if (barrelProp != null) barrelProp.objectReferenceValue = barrel;
         so.ApplyModifiedProperties();
 
         // FIX: Reset M1911 child model to local origin
@@ -202,7 +240,13 @@ public class SceneSetup : MonoBehaviour
         if (gm == null) return;
         if (gm.GetComponent<ControllerMapping>() == null)
             gm.AddComponent<ControllerMapping>();
-        Debug.Log("ControllerMapping added to GameManager.");
+        if (gm.GetComponent<PlayerFeatureAttacher>() == null)
+            gm.AddComponent<PlayerFeatureAttacher>();
+        if (gm.GetComponent<CollisionFixer>() == null)
+            gm.AddComponent<CollisionFixer>();
+        if (gm.GetComponent<GlobalBoundaryEnforcer>() == null)
+            gm.AddComponent<GlobalBoundaryEnforcer>();
+        Debug.Log("ControllerMapping and PlayerFeatureAttacher added to GameManager.");
     }
 
     static void SetupPromptTexts()
@@ -421,7 +465,13 @@ public class SceneSetup : MonoBehaviour
         if (player.GetComponent<ControllerDebug>() == null)
             player.AddComponent<ControllerDebug>();
 
-        Debug.Log("PlayerSafetyNet added to Player.");
+        if (player.GetComponent<PlayerHealth>() == null)
+            player.AddComponent<PlayerHealth>();
+
+        if (player.GetComponent<ObjectiveTracker>() == null)
+            player.AddComponent<ObjectiveTracker>();
+
+        Debug.Log("Player setup complete with health, objectives, and safety.");
     }
 
     static void SetupTimeMachine()

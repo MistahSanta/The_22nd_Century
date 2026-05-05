@@ -72,6 +72,14 @@ public class ZombieScript : NetworkBehaviour
         zombie_health -= bullet_damage;
         HapticFeedback.VibrateHit();
 
+        // Show damage number only in Future (not Present)
+        try
+        {
+            if (GameManager.Instance == null || !GameManager.Instance.IsInPresent)
+                ShowDamageNumber(bullet_damage);
+        }
+        catch { ShowDamageNumber(bullet_damage); }
+
         // Flash red on hit
         TurnRed();
 
@@ -91,6 +99,57 @@ public class ZombieScript : NetworkBehaviour
         if (animator != null) animator.SetTrigger("Hit");
     }
 
+    void ShowDamageNumber(int damage)
+    {
+        // Create floating damage text above zombie
+        GameObject dmgObj = new GameObject("DamageNum");
+        dmgObj.transform.position = transform.position + Vector3.up * 2.5f;
+
+        Canvas c = dmgObj.AddComponent<Canvas>();
+        c.renderMode = RenderMode.WorldSpace;
+        c.sortingOrder = 200;
+
+        RectTransform cRect = dmgObj.GetComponent<RectTransform>();
+        cRect.sizeDelta = new Vector2(100, 40);
+        cRect.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+
+        GameObject txt = new GameObject("Text");
+        txt.transform.SetParent(dmgObj.transform, false);
+        var text = txt.AddComponent<TMPro.TextMeshProUGUI>();
+        text.text = "-" + damage;
+        text.fontSize = 36;
+        text.alignment = TMPro.TextAlignmentOptions.Center;
+        text.color = Color.red;
+        text.fontStyle = TMPro.FontStyles.Bold;
+        txt.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 40);
+
+        // Float up and fade out
+        StartCoroutine(FloatDamageNumber(dmgObj));
+    }
+
+    System.Collections.IEnumerator FloatDamageNumber(GameObject obj)
+    {
+        float timer = 1f;
+        Vector3 startPos = obj.transform.position;
+
+        // Face camera
+        Camera cam = Camera.main;
+
+        while (timer > 0 && obj != null)
+        {
+            timer -= Time.deltaTime;
+            obj.transform.position = startPos + Vector3.up * (1f - timer) * 1.5f;
+
+            if (cam != null)
+                obj.transform.rotation = Quaternion.LookRotation(
+                    obj.transform.position - cam.transform.position);
+
+            yield return null;
+        }
+
+        if (obj != null) Destroy(obj);
+    }
+
     void TurnRed()
     {
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
@@ -105,6 +164,8 @@ public class ZombieScript : NetworkBehaviour
         }
     }
 
+    float attackCooldown = 0f;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -114,7 +175,74 @@ public class ZombieScript : NetworkBehaviour
         {
             Debug.Log("Agent is not set in zombie!");
         }
+    }
 
+    void Update()
+    {
+        if (isDead) return;
+        if (attackCooldown > 0) attackCooldown -= Time.deltaTime;
 
+        // Distance-based damage — find ALL players by tag and by PlayerHealth
+        if (attackCooldown <= 0)
+        {
+            // Find all PlayerHealth components in scene
+            var allHealth = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
+            foreach (var health in allHealth)
+            {
+                if (health == null) continue;
+                float dist = Vector3.Distance(transform.position, health.transform.position);
+                if (dist < 2.5f && !health.IsInvincible())
+                {
+                    health.TakeDamage();
+                    attackCooldown = 2f;
+                    Debug.Log("Zombie attacked player! Distance: " + dist);
+                    return;
+                }
+            }
+
+            // Also try tagged players without PlayerHealth yet
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var p in players)
+            {
+                float dist = Vector3.Distance(transform.position, p.transform.position);
+                if (dist < 2.5f)
+                {
+                    // Try PlayerScript (Jonathan's version)
+                    var ps = p.GetComponent<PlayerScript>();
+                    if (ps != null)
+                    {
+                        ps.take_damage(50);
+                        attackCooldown = 2f;
+                        HapticFeedback.VibrateHit();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (isDead) return;
+        DamagePlayer(other.transform);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (isDead) return;
+        DamagePlayer(collision.transform);
+    }
+
+    void DamagePlayer(Transform other)
+    {
+        // Check if we hit a player
+        var health = other.GetComponent<PlayerHealth>();
+        if (health == null) health = other.GetComponentInParent<PlayerHealth>();
+        if (health == null) health = other.root.GetComponent<PlayerHealth>();
+
+        if (health != null)
+        {
+            health.TakeDamage();
+        }
     }
 }

@@ -112,11 +112,21 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     }
     void INetworkRunnerCallbacks.OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    void INetworkRunnerCallbacks.OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    void INetworkRunnerCallbacks.OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        Debug.Log("Network shutdown: " + shutdownReason);
+        if (_statusLabel != null) _statusLabel.text = "Disconnected: " + shutdownReason;
+        _runner = null;
+    }
     void INetworkRunnerCallbacks.OnConnectedToServer(NetworkRunner runner) { }
     void INetworkRunnerCallbacks.OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
     void INetworkRunnerCallbacks.OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-    void INetworkRunnerCallbacks.OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
+    void INetworkRunnerCallbacks.OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
+    {
+        Debug.LogError("Connection failed: " + reason);
+        if (_statusLabel != null) _statusLabel.text = "Connection failed! Check WiFi.";
+        _runner = null; // Allow retry
+    }
     void INetworkRunnerCallbacks.OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     void INetworkRunnerCallbacks.OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     void INetworkRunnerCallbacks.OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
@@ -179,6 +189,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         return t;
     }
 
+    private Text _statusLabel;
+
     private void Start()
     {
         if (_menuCamera != null)
@@ -186,19 +198,39 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         GameObject canvasGO = new GameObject("MenuCanvas");
         _menuCanvas = canvasGO.AddComponent<Canvas>();
-        _menuCanvas.renderMode = RenderMode.ScreenSpaceOverlay; // No camera needed
+        _menuCanvas.renderMode = RenderMode.WorldSpace;
         canvasGO.AddComponent<GraphicRaycaster>();
 
-        // Add CanvasScaler for consistent sizing across resolutions
-        CanvasScaler scaler = canvasGO.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-
         RectTransform rt = canvasGO.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(400, 200);
+        rt.sizeDelta = new Vector2(500, 350);
+        rt.localScale = new Vector3(0.005f, 0.005f, 0.005f);
 
-        _hostLabel = CreateLabel(canvasGO, "Press A to Host", new Vector2(0, 40));
-        _joinLabel = CreateLabel(canvasGO, "Press B to Join", new Vector2(0, -40));
+        // Position in front of camera
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            canvasGO.transform.position = cam.transform.position + cam.transform.forward * 3f;
+            canvasGO.transform.rotation = Quaternion.LookRotation(
+                canvasGO.transform.position - cam.transform.position);
+        }
+        else
+        {
+            canvasGO.transform.position = new Vector3(0, 2, 3);
+        }
+
+        // Background
+        GameObject bg = new GameObject("BG");
+        bg.transform.SetParent(canvasGO.transform, false);
+        var bgImg = bg.AddComponent<Image>();
+        bgImg.color = new Color(0, 0, 0, 0.8f);
+        bg.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 350);
+
+        CreateLabel(canvasGO, "The 22nd Century", new Vector2(0, 130));
+        _hostLabel = CreateLabel(canvasGO, "Press [A] to Host a Game", new Vector2(0, 40));
+        _joinLabel = CreateLabel(canvasGO, "Press [X] to Join a Game", new Vector2(0, -40));
+        _statusLabel = CreateLabel(canvasGO, "Both players must be on the same WiFi", new Vector2(0, -120));
+        _statusLabel.fontSize = 20;
+        _statusLabel.color = Color.yellow;
     }
 
     private void Update()
@@ -208,7 +240,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             if (_menuCanvas != null)
             {
                 _menuCanvas.gameObject.SetActive(true);
-                // No camera positioning needed for ScreenSpaceOverlay
+
+                // Keep menu in front of camera (WorldSpace)
+                Camera cam = _menuCamera != null && _menuCamera.gameObject.activeSelf
+                    ? _menuCamera : Camera.main;
+                if (cam != null)
+                {
+                    _menuCanvas.transform.position = cam.transform.position + cam.transform.forward * 3f;
+                    _menuCanvas.transform.rotation = Quaternion.LookRotation(
+                        _menuCanvas.transform.position - cam.transform.position);
+                }
             }
 
             bool a_button = ControllerMapping.Instance != null
@@ -221,11 +262,13 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             if (a_button)
             {
                 Debug.Log("Starting as HOST...");
+                if (_statusLabel != null) _statusLabel.text = "Connecting as HOST...";
                 StartGame(GameMode.Host);
             }
             else if (x_button)
             {
                 Debug.Log("Starting as CLIENT...");
+                if (_statusLabel != null) _statusLabel.text = "Joining game...";
                 StartGame(GameMode.Client);
             }
         }

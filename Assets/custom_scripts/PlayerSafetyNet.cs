@@ -1,49 +1,45 @@
 using UnityEngine;
 
 /// <summary>
-/// Prevents player from falling into the void.
-/// Also ensures there's always a solid floor under the player.
-/// Attach to the Player GameObject.
+/// Hard boundary clamp. Cannot walk outside map no matter what.
 /// </summary>
 public class PlayerSafetyNet : MonoBehaviour
 {
-    [Tooltip("If player falls below this Y, teleport back to spawn.")]
-    public float minY = -3f;
+    // Tight map boundaries
+    static float minX = -22f, maxX = 24f;
+    static float minZ = -20f, maxZ = 24f;
+    static float minY = -3f;
 
-    Vector3 lastSafePosition;
-    CharacterController cc;
+    Vector3 lastSafePos;
 
     void Start()
     {
-        cc = GetComponent<CharacterController>();
-        lastSafePosition = transform.position;
-
-        // Create a backup floor if one doesn't exist
-        if (GameObject.Find("SafetyFloor") == null)
-        {
-            GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            floor.name = "SafetyFloor";
-            floor.transform.position = new Vector3(0, -0.5f, 0);
-            floor.transform.localScale = new Vector3(500, 1, 500);
-            floor.GetComponent<MeshRenderer>().enabled = false;
-        }
+        lastSafePos = transform.position;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        // Remember last safe position (when grounded)
-        if (cc != null && cc.isGrounded && transform.position.y > minY)
-        {
-            lastSafePosition = transform.position;
-        }
+        Vector3 pos = transform.position;
 
-        // Teleport back if fallen
+        // Clamp to boundary
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.z = Mathf.Clamp(pos.z, minZ, maxZ);
+
+        if (pos != transform.position)
+            transform.position = pos;
+
+        // Fall recovery
         if (transform.position.y < minY)
-        {
-            if (cc != null) cc.enabled = false;
-            transform.position = lastSafePosition + Vector3.up * 2f;
-            if (cc != null) cc.enabled = true;
-            Debug.Log("Player fell - teleported to last safe position.");
-        }
+            transform.position = lastSafePos + Vector3.up * 2f;
+        else
+            lastSafePos = transform.position;
+    }
+
+    // Static method — any script can call this to clamp any position
+    public static Vector3 ClampToMap(Vector3 pos)
+    {
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.z = Mathf.Clamp(pos.z, minZ, maxZ);
+        return pos;
     }
 }

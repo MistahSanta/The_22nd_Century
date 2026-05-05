@@ -18,29 +18,7 @@ public class GunScript : MonoBehaviour
     {
         gun_animator = GetComponentInChildren<Animator>();
 
-        // Add blue emission glow to gun model
-        foreach (Renderer r in GetComponentsInChildren<Renderer>())
-        {
-            foreach (Material mat in r.materials)
-            {
-                mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", new Color(0.15f, 0.4f, 0.9f) * 1.5f);
-            }
-        }
-
-        // Add point light at gun center
-        Bounds bounds = new Bounds(transform.position, Vector3.zero);
-        foreach (Renderer r in GetComponentsInChildren<Renderer>())
-            bounds.Encapsulate(r.bounds);
-
-        GameObject lightObj = new GameObject("GunGlow");
-        lightObj.transform.position = bounds.center;
-        lightObj.transform.SetParent(transform, true);
-        gunLight = lightObj.AddComponent<Light>();
-        gunLight.type = LightType.Point;
-        gunLight.color = new Color(0.2f, 0.5f, 1f);
-        gunLight.range = 12f;
-        gunLight.intensity = 4f;
+        // No glow on gun — light beam guides player instead
 
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.spatialBlend = 1f;  // 3D audio so other players hear it positionally
@@ -101,8 +79,9 @@ public class GunScript : MonoBehaviour
         if (shootSound != null && _audioSource != null)
             _audioSource.PlayOneShot(shootSound, shootVolume);
 
+        // Spawn bullet facing camera forward direction
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
-            Quaternion.Euler(90,0,0));
+            Quaternion.LookRotation(main_camera.forward));
         b.SetActive(true);
         Rigidbody rb = b.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = main_camera.forward * 20f;

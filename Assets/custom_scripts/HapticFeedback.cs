@@ -2,12 +2,13 @@ using UnityEngine;
 
 /// <summary>
 /// Provides haptic vibration feedback on Android devices.
-/// Call the static methods from other scripts (e.g., GunScript, ZombieScript).
-/// Attach to Player or any persistent GameObject.
+/// Different vibration patterns for different game events.
 /// </summary>
 public class HapticFeedback : MonoBehaviour
 {
     static HapticFeedback instance;
+    static bool isVibrating = false;
+    static float pulseTimer = 0f;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     static AndroidJavaObject vibrator;
@@ -21,6 +22,16 @@ public class HapticFeedback : MonoBehaviour
         InitVibrator();
     }
 
+    void Update()
+    {
+        // Handle proximity pulse vibration (zombie nearby)
+        if (pulseTimer > 0)
+        {
+            pulseTimer -= Time.deltaTime;
+            if (pulseTimer <= 0) isVibrating = false;
+        }
+    }
+
     static void InitVibrator()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -30,7 +41,6 @@ public class HapticFeedback : MonoBehaviour
             AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             vibrator = activity.Call<AndroidJavaObject>("getSystemService", "vibrator");
 
-            // Check if VibrationEffect is available (API 26+)
             int sdkVersion = new AndroidJavaClass("android.os.Build$VERSION").GetStatic<int>("SDK_INT");
             if (sdkVersion >= 26)
             {
@@ -45,34 +55,55 @@ public class HapticFeedback : MonoBehaviour
 #endif
     }
 
-    /// <summary>
-    /// Short vibration for shooting feedback.
-    /// </summary>
+    // --- Game Event Vibrations ---
+
+    /// <summary>Short vibration for shooting.</summary>
     public static void VibrateShoot()
     {
         Vibrate(50, 128);
     }
 
-    /// <summary>
-    /// Strong vibration when player gets hit by a zombie.
-    /// </summary>
+    /// <summary>Strong vibration when player takes damage.</summary>
     public static void VibrateHit()
     {
-        Vibrate(200, 255);
+        Vibrate(300, 255);
     }
 
-    /// <summary>
-    /// Light vibration for interaction feedback (pickup, etc.).
-    /// </summary>
+    /// <summary>Light double-tap vibration for picking up items.</summary>
+    public static void VibratePickup()
+    {
+        VibratePattern(new long[] { 0, 30, 40, 30 }, new int[] { 0, 120, 0, 120 });
+    }
+
+    /// <summary>Light vibration for general interaction.</summary>
     public static void VibrateInteract()
     {
         Vibrate(30, 80);
     }
 
-    /// <summary>
-    /// Vibrate with specified duration (ms) and amplitude (1-255).
-    /// Falls back to Handheld.Vibrate() on older devices.
-    /// </summary>
+    /// <summary>Long vibration for game over.</summary>
+    public static void VibrateGameOver()
+    {
+        Vibrate(500, 200);
+    }
+
+    /// <summary>Heartbeat pulse when zombie is nearby (call repeatedly).</summary>
+    public static void VibrateProximityPulse()
+    {
+        if (isVibrating) return;
+        isVibrating = true;
+        pulseTimer = 0.8f;
+        Vibrate(100, 60);
+    }
+
+    /// <summary>Rapid pulse for timer running low.</summary>
+    public static void VibrateTimerUrgent()
+    {
+        VibratePattern(new long[] { 0, 50, 50, 50, 50, 50 }, new int[] { 0, 180, 0, 180, 0, 180 });
+    }
+
+    // --- Core Vibration Methods ---
+
     public static void Vibrate(long milliseconds, int amplitude = -1)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -96,7 +127,32 @@ public class HapticFeedback : MonoBehaviour
             Handheld.Vibrate();
         }
 #else
-        Debug.Log($"[HapticFeedback] Vibrate {milliseconds}ms, amplitude {amplitude} (editor - no vibration)");
+        Debug.Log($"[Haptic] {milliseconds}ms amp={amplitude}");
+#endif
+    }
+
+    public static void VibratePattern(long[] pattern, int[] amplitudes)
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        try
+        {
+            if (vibrationEffectClass != null && hasAmplitudeControl)
+            {
+                AndroidJavaObject effect = vibrationEffectClass.CallStatic<AndroidJavaObject>(
+                    "createWaveform", pattern, amplitudes, -1);
+                vibrator.Call("vibrate", effect);
+            }
+            else
+            {
+                Handheld.Vibrate();
+            }
+        }
+        catch
+        {
+            Handheld.Vibrate();
+        }
+#else
+        Debug.Log($"[Haptic] Pattern: {pattern.Length} steps");
 #endif
     }
 }

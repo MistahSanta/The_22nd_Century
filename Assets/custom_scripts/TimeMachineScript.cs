@@ -22,13 +22,18 @@ public class TimeMachineScript : MonoBehaviour
 
     void Update()
     {
-        // In Present: glow only when time's up
-        // In Future: always glow (so player can travel to present)
         if (GameManager.Instance != null)
         {
             bool shouldGlow = !GameManager.Instance.IsInPresent ||
                               !GameManager.Instance.TimerRunning;
             if (shouldGlow != glowing) SetGlow(shouldGlow);
+        }
+
+        // Pulsing light effect
+        if (glowing && portalLight != null)
+        {
+            float pulse = (Mathf.Sin(Time.time * 2f) + 1f) / 2f; // 0 to 1
+            portalLight.intensity = Mathf.Lerp(1f, 5f, pulse);
         }
     }
 

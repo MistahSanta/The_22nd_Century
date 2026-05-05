@@ -22,7 +22,7 @@ public class GameManager : NetworkBehaviour
 
 
     [Header("Timer")]
-    public float presentWorldTime = 60f;
+    public float presentWorldTime = 120f;
 
     [Header("Shared Objects")]
     public GameObject gunObject;
@@ -71,13 +71,13 @@ public class GameManager : NetworkBehaviour
 
     // Public read-only accessors (read from networked state)
     public bool IsInPresent => isInPresent;
-    public bool IsGameOver => NetworkedGameOver;
-    public bool TimerRunning => NetworkedTimerRunning;
-    public float TimeRemaining => NetworkedTimer;
+    public bool IsGameOver => isSpawned ? NetworkedGameOver : false;
+    public bool TimerRunning => isSpawned ? NetworkedTimerRunning : false;
+    public float TimeRemaining => isSpawned ? NetworkedTimer : 0f;
     public bool HasGarbagePicker => hasGarbagePicker;
     public bool HasShovel => hasShovel;
-    public int TrashCollected => NetworkedTrashCollected;
-    public int TreesPlanted => NetworkedTreesPlanted;
+    public int TrashCollected => isSpawned ? NetworkedTrashCollected : 0;
+    public int TreesPlanted => isSpawned ? NetworkedTreesPlanted : 0;
     public float CleanlinessPercent =>
         (totalTrashInPresent + totalTreesInPresent) > 0
             ? (float)(NetworkedTrashCollected + NetworkedTreesPlanted)
@@ -104,6 +104,7 @@ public class GameManager : NetworkBehaviour
     public override void Spawned()
     {
         isSpawned = true;
+        presentWorldTime = 120f; // Force 2 minutes
 
         if (gunObject == null) gunObject = GameObject.Find("Gun");
         if (timeMachineObject == null) timeMachineObject = GameObject.Find("TimeMachine");
@@ -137,7 +138,8 @@ public class GameManager : NetworkBehaviour
                 NetworkedTimer = 0f;
                 NetworkedTimerRunning = false;
                 if (SoundManager.Instance != null) SoundManager.Instance.PlayTimerEnd();
-                Debug.Log("Time's up! Return to the Time Machine!");
+                Debug.Log("Time's up! Mission failed!");
+                GameOver();
             }
         }
     }
@@ -145,6 +147,12 @@ public class GameManager : NetworkBehaviour
     void Update()
     {
         if (!isSpawned) return;
+
+        // Skip tutorial with keyboard (E key) for editor testing
+        if (IsTutorialActive && Input.GetKeyDown(KeyCode.E))
+        {
+            StartGame();
+        }
 
         // Tool switching is purely local
         if (isInPresent && ControllerMapping.Instance != null

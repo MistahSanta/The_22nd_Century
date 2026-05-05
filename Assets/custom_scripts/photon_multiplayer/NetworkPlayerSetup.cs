@@ -10,7 +10,7 @@ public class NetworkPlayerSetup : NetworkBehaviour
     
     public override void Spawned()
     {
-        
+
         if (HasInputAuthority)
         {
             localOnlyObjects.SetActive(true);   // enable our VR rig
@@ -25,16 +25,29 @@ public class NetworkPlayerSetup : NetworkBehaviour
             {
                 eventSystem.gameObject.SetActive(true);
             }
-            
+
+            // Attach local player features
+            if (GetComponent<PlayerHealth>() == null)
+                gameObject.AddComponent<PlayerHealth>();
+            if (GetComponent<ObjectiveTracker>() == null)
+                gameObject.AddComponent<ObjectiveTracker>();
+            if (GetComponent<PlayerSafetyNet>() == null)
+                gameObject.AddComponent<PlayerSafetyNet>();
+
         }
         else
         {
+            localOnlyObjects.SetActive(false);
+            remoteVisual.SetActive(true);
 
-            localOnlyObjects.SetActive(false);  // don't activate their VR rig on our machine
-            remoteVisual.SetActive(true);   
-           
+            // Add health to remote player so local player can see their HP
+            if (GetComponent<PlayerHealth>() == null)
+            {
+                var hp = gameObject.AddComponent<PlayerHealth>();
+                hp.isLocalPlayer = false;
+            }
         }
 
-        
+
     }
 }
