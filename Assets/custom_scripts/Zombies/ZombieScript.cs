@@ -101,44 +101,42 @@ public class ZombieScript : NetworkBehaviour
 
     void ShowDamageNumber(int damage)
     {
-        // Create floating damage text above zombie
         GameObject dmgObj = new GameObject("DamageNum");
-        dmgObj.transform.position = transform.position + Vector3.up * 2.5f;
+        dmgObj.transform.position = transform.position + Vector3.up * 2f;
 
         Canvas c = dmgObj.AddComponent<Canvas>();
         c.renderMode = RenderMode.WorldSpace;
         c.sortingOrder = 200;
 
         RectTransform cRect = dmgObj.GetComponent<RectTransform>();
-        cRect.sizeDelta = new Vector2(100, 40);
-        cRect.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+        cRect.sizeDelta = new Vector2(60, 25);
+        cRect.localScale = new Vector3(0.008f, 0.008f, 0.008f);
 
         GameObject txt = new GameObject("Text");
         txt.transform.SetParent(dmgObj.transform, false);
         var text = txt.AddComponent<TMPro.TextMeshProUGUI>();
         text.text = "-" + damage;
-        text.fontSize = 36;
+        text.fontSize = 20;
         text.alignment = TMPro.TextAlignmentOptions.Center;
         text.color = Color.red;
         text.fontStyle = TMPro.FontStyles.Bold;
-        txt.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 40);
+        txt.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 25);
 
-        // Float up and fade out
+        // Float up and destroy (backup: auto-destroy after 1.5s)
+        Destroy(dmgObj, 1.5f);
         StartCoroutine(FloatDamageNumber(dmgObj));
     }
 
     System.Collections.IEnumerator FloatDamageNumber(GameObject obj)
     {
-        float timer = 1f;
+        float timer = 0.8f;
         Vector3 startPos = obj.transform.position;
-
-        // Face camera
         Camera cam = Camera.main;
 
         while (timer > 0 && obj != null)
         {
             timer -= Time.deltaTime;
-            obj.transform.position = startPos + Vector3.up * (1f - timer) * 1.5f;
+            obj.transform.position = startPos + Vector3.up * (0.8f - timer) * 1f;
 
             if (cam != null)
                 obj.transform.rotation = Quaternion.LookRotation(

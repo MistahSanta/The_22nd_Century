@@ -83,7 +83,7 @@ public class GunScript : MonoBehaviour
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
             Quaternion.LookRotation(main_camera.forward) * Quaternion.Euler(90, 0, 0));
         b.SetActive(true);
-        b.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        b.transform.localScale = new Vector3(2f, 2f, 2f); // TEMP: big for testing orientation
 
         // Add glowing trail so bullet is visible
         var trail = b.AddComponent<TrailRenderer>();
