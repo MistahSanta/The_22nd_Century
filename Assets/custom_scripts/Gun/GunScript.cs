@@ -83,7 +83,16 @@ public class GunScript : MonoBehaviour
         GameObject b = Instantiate(bullet, gun_barrel != null ? gun_barrel.position : transform.position,
             Quaternion.LookRotation(main_camera.forward) * Quaternion.Euler(90, 0, 0));
         b.SetActive(true);
-        b.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        b.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        // Add glowing trail so bullet is visible
+        var trail = b.AddComponent<TrailRenderer>();
+        trail.startWidth = 0.1f;
+        trail.endWidth = 0f;
+        trail.time = 0.3f;
+        trail.material = new Material(Shader.Find("Sprites/Default"));
+        trail.startColor = new Color(1f, 0.8f, 0.2f, 1f);
+        trail.endColor = new Color(1f, 0.3f, 0f, 0f);
         Rigidbody rb = b.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
         if (gun_animator != null) gun_animator.SetTrigger("Fire");
