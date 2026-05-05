@@ -92,7 +92,7 @@ public class HapticFeedback : MonoBehaviour
     {
         if (isVibrating) return;
         isVibrating = true;
-        pulseTimer = 0.8f;
+        pulseTimer = 0.7f;
         Vibrate(100, 60);
     }
 
