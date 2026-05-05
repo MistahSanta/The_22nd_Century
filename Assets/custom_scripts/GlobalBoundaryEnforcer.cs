@@ -6,8 +6,8 @@ using UnityEngine;
 /// </summary>
 public class GlobalBoundaryEnforcer : MonoBehaviour
 {
-    float minX = -22f, maxX = 24f;
-    float minZ = -20f, maxZ = 24f;
+    float minX = -21f, maxX = 23f;
+    float minZ = -19f, maxZ = 23f;
 
     void LateUpdate()
     {
