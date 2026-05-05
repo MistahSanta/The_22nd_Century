@@ -457,10 +457,11 @@ public class ObjectiveTracker : MonoBehaviour
 
             if (inFuture && mainCam != null)
             {
-                // Position between objective (top-left) and hearts (top-right)
+                // Below objective tracker, left side
                 killCounterCanvas.transform.position = mainCam.transform.position
                     + mainCam.transform.forward * 1.2f
-                    + mainCam.transform.up * 0.55f;
+                    + mainCam.transform.up * 0.35f
+                    - mainCam.transform.right * 0.45f;
                 killCounterCanvas.transform.rotation = Quaternion.LookRotation(
                     killCounterCanvas.transform.position - mainCam.transform.position);
 
@@ -609,18 +610,18 @@ public class ObjectiveTracker : MonoBehaviour
         mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.One); // Additive
         mat.SetFloat("_Mode", 2); // Fade mode
         mat.renderQueue = 3000;
-        mat.color = new Color(0.9f, 0.95f, 1f, 0.12f);
+        mat.color = new Color(0.95f, 0.97f, 1f, 0.06f);
         beamLine.material = mat;
 
-        // Gradient: bright at bottom, fade at top
+        // Gradient: subtle glow at bottom, fade to nothing at top
         Gradient gradient = new Gradient();
         gradient.SetKeys(
             new GradientColorKey[] {
-                new GradientColorKey(new Color(0.9f, 0.95f, 1f), 0f),
-                new GradientColorKey(new Color(0.9f, 0.95f, 1f), 1f)
+                new GradientColorKey(new Color(0.95f, 0.97f, 1f), 0f),
+                new GradientColorKey(new Color(0.95f, 0.97f, 1f), 1f)
             },
             new GradientAlphaKey[] {
-                new GradientAlphaKey(0.3f, 0f),
+                new GradientAlphaKey(0.15f, 0f),
                 new GradientAlphaKey(0f, 1f)
             }
         );
