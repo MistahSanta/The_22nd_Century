@@ -251,7 +251,7 @@ public class ObjectiveTracker : MonoBehaviour
         }
 
         // Pulse vibration when zombie is close
-        if (closestDist < 5f)
+        if (closestDist < 6f)
         {
             proximityPulseTimer -= Time.deltaTime;
             if (proximityPulseTimer <= 0)
