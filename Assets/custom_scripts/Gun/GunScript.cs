@@ -87,14 +87,14 @@ public class GunScript : MonoBehaviour
 
         // Add glowing trail so bullet is visible
         var trail = b.AddComponent<TrailRenderer>();
-        trail.startWidth = 0.1f;
+        trail.startWidth = 0.03f;
         trail.endWidth = 0f;
-        trail.time = 0.3f;
+        trail.time = 0.15f;
         trail.material = new Material(Shader.Find("Sprites/Default"));
-        trail.startColor = new Color(1f, 0.8f, 0.2f, 1f);
+        trail.startColor = new Color(1f, 0.8f, 0.2f, 0.8f);
         trail.endColor = new Color(1f, 0.3f, 0f, 0f);
         Rigidbody rb = b.GetComponent<Rigidbody>();
-        if (rb != null) rb.linearVelocity = main_camera.forward * 3f; // TEMP slow for testing
+        if (rb != null) rb.linearVelocity = main_camera.forward * 20f;
         if (gun_animator != null) gun_animator.SetTrigger("Fire");
         HapticFeedback.VibrateShoot();
         if (muzzle_flash != null) muzzle_flash.Play();
