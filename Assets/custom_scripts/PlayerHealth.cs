@@ -446,7 +446,7 @@ public class PlayerHealth : MonoBehaviour
 
         gameOverUI = new GameObject("GameOverUI");
         gameOverUI.transform.SetParent(transform, false);
-        gameOverUI.transform.localPosition = new Vector3(0, 3f, 0); // Above player head
+        gameOverUI.transform.localPosition = new Vector3(-0.4f, 2.8f, 0);
         Canvas c = gameOverUI.AddComponent<Canvas>();
         c.renderMode = RenderMode.WorldSpace;
         c.sortingOrder = 250;
@@ -508,7 +508,7 @@ public class PlayerHealth : MonoBehaviour
     {
         overheadBar = new GameObject("OverheadHP");
         overheadBar.transform.SetParent(transform, false);
-        overheadBar.transform.localPosition = new Vector3(-0.15f, 2.2f, 0);
+        overheadBar.transform.localPosition = new Vector3(-0.4f, 2.2f, 0);
 
         // 3 red spheres as hearts — no Canvas needed, always visible
         Material redMat = new Material(Shader.Find("Standard"));
